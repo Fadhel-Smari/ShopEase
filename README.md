@@ -1,6 +1,5 @@
 # ShopEase Plateforme e-commerce fullstack Java Spring Boot + React
 
-# 🛍️ ShopEase - Plateforme E-Commerce Fullstack
 
 ShopEase est une plateforme e-commerce moderne développée avec des technologies backend robustes telles que **Java**, **Spring Boot**, **Spring Security**, **Hibernate**, et **PostgreSQL**. Ce projet a pour but de créer une application complète de vente en ligne avec des fonctionnalités avancées côté client et administrateur.
 
@@ -32,6 +31,9 @@ ShopEase est une plateforme e-commerce moderne développée avec des technologie
 ├── docker/          # Dockerfiles & docker-compose (à venir)
 ├── ci-cd/           # Pipelines CI/CD (à venir)
 └── README.md        # Documentation du projet
+```
+
+---
 
 ## ⚙️ Étapes réalisées
 
@@ -50,4 +52,32 @@ ShopEase est une plateforme e-commerce moderne développée avec des technologie
 - Initialisation Git
 - Ajout du projet Spring Boot dans le dossier `backend/`
 - Premier commit et push vers GitHub
+
+---
+
+## 🧱 Structure du backend (Spring Boot)
+
+L'application suit une architecture modulaire organisée selon les bonnes pratiques de développement backend Java avec Spring Boot.
+
+```bash
+backend/
+└── src/
+    └── main/
+        ├── java/
+        │   └── com/
+        │       └── shopease/
+        │           ├── config/          # Configurations (sécurité, CORS, JWT, etc.)
+        │           ├── controller/      # Contrôleurs REST
+        │           ├── dto/             # Objets de transfert de données (DTO)
+        │           ├── entity/          # Entités JPA (modèles de base de données)
+        │           ├── exception/       # Gestion des exceptions personnalisées
+        │           ├── repository/      # Interfaces d'accès aux données (JpaRepository)
+        │           ├── security/        # Gestion de la sécurité (JWT, filtres, etc.)
+        │           ├── service/         # Logique métier
+        │           └── ShopEaseApplication.java  # Classe principale
+        └── resources/
+            ├── application.properties  # Configuration de l'application (base de données, port, etc.)
+            ├── static/                 # (Optionnel) Fichiers statiques
+            └── templates/              # (Optionnel) Vues si utilisation de Thymeleaf
+```
 
