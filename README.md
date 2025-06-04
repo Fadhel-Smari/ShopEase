@@ -136,3 +136,64 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 ---
 ✅ Cette configuration permet à l'application Spring Boot de se connecter à la base shopease_db avec l'utilisateur admin.
 
+---
+
+## 👮‍♂️ Permissions PostgreSQL pour l'utilisateur `admin`
+
+Avant de manipuler des données via Spring Boot, il est important de s'assurer que l'utilisateur `admin` dispose de tous les droits nécessaires sur la base `shopease_db`.
+
+### 🧾 Étapes à suivre
+
+#### 1. Se connecter en tant que superutilisateur PostgreSQL :
+
+```bash
+sudo -i -u postgres
+psql -d shopease_db
+```
+
+#### 2. Accorder les droits nécessaires à l'utilisateur admin :
+
+- Autoriser la création d’objets dans le schéma public
+```sql
+GRANT USAGE, CREATE ON SCHEMA public TO admin;
+```
+- Accorder les privilèges sur toutes les tables existantes
+```sql
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO admin;
+```
+- Accorder aussi les droits sur les séquences (auto-incréments)
+```sql
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO admin;
+```
+
+---
+
+## 👤 Création et test de l'entité `User` dans le backend
+
+Pour valider la connexion entre Spring Boot et PostgreSQL, nous avons créé une entité `User` simple, ainsi que les composants nécessaires pour manipuler cette entité via une API REST.
+
+### Structure principale créée :
+
+- **Entité `User`** : représente un utilisateur avec les champs `id`, `username`, `password` et `email`.
+- **Repository** : interface `UserRepository` pour les opérations CRUD sur la base.
+- **Service** : classe `UserService` pour la logique métier, notamment la gestion des utilisateurs.
+- **Controller REST** : `UserController` exposant des endpoints pour créer et récupérer des utilisateurs.
+
+### Fonctionnalités testées :
+
+- Récupérer la liste des utilisateurs via une requête GET.
+- Créer un nouvel utilisateur via une requête POST en envoyant un JSON contenant les informations utilisateur.
+
+### Exemple d’appel POST pour créer un utilisateur :
+
+```json
+{
+  "username": "fadhel",
+  "password": "123456",
+  "email": "fadhel@example.com"
+}
+```
+---
+✅ Cette étape permet de vérifier que la connexion Spring Boot / PostgreSQL fonctionne parfaitement et que les opérations CRUD simples sont opérationnelles.
+
+
