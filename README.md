@@ -196,4 +196,41 @@ Pour valider la connexion entre Spring Boot et PostgreSQL, nous avons créé une
 ---
 ✅ Cette étape permet de vérifier que la connexion Spring Boot / PostgreSQL fonctionne parfaitement et que les opérations CRUD simples sont opérationnelles.
 
+---
+
+## 🛒 Création et test de l'entité Produits dans le backend
+
+Ce module permet de gérer les produits de la boutique en ligne : ajout, consultation, modification et suppression.
+
+### 🧱 Structure mise en place
+
+- `entity/Product.java` : entité représentant un produit avec les champs :
+  - `id`, `name`, `description`, `price`, `imageUrl`, `stock`
+- `repository/ProductRepository.java` : interface d’accès aux données via Spring Data JPA.
+- `service/ProductService.java` : couche métier pour la gestion des produits.
+- `controller/ProductController.java` : API REST pour exposer les opérations CRUD sur les produits.
+
+### 🔌 Endpoints disponibles
+
+- `GET /api/products` → Liste tous les produits
+- `GET /api/products/{id}` → Récupère un produit par ID
+- `POST /api/products` → Crée un nouveau produit
+- `PUT /api/products/{id}` → Met à jour un produit
+- `DELETE /api/products/{id}` → Supprime un produit
+
+### 🧪 Exemple JSON pour POST /api/products
+
+```json
+{
+  "name": "T-shirt oversize",
+  "description": "T-shirt en coton biologique avec coupe ample",
+  "price": 29.99,
+  "imageUrl": "https://example.com/images/tshirt.png",
+  "stock": 100
+}
+```
+---
+✅ Une fois un produit créé, il est stocké dans la table products de la base de données shopease_db.
+
+
 
