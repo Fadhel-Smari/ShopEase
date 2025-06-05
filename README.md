@@ -232,5 +232,69 @@ Ce module permet de gérer les produits de la boutique en ligne : ajout, consult
 ---
 ✅ Une fois un produit créé, il est stocké dans la table products de la base de données shopease_db.
 
+---
 
+## 🗂️ Création et test de l'entité Catégories de produits dans le backend 
 
+Ce module permet de gérer les catégories de produits, et d’associer chaque produit à une catégorie. Il est essentiel pour structurer le catalogue et permettre des filtres plus tard.
+
+### 🧱 Structure mise en place
+
+- `entity/Category.java` : entité représentant une catégorie avec les champs :
+  - `id`, `name`
+- `entity/Product.java` : ajout d’un champ `category` de type `Category` avec `@ManyToOne`
+- `repository/CategoryRepository.java` : interface d’accès aux catégories
+- `service/CategoryService.java` : logique métier pour les catégories
+- `controller/CategoryController.java` : endpoints REST pour gérer les catégories
+
+### 🔌 Endpoints disponibles
+
+#### 🔹 Catégories
+
+- `GET /api/categories` → Liste toutes les catégories
+- `GET /api/categories/{id}` → Récupère une catégorie par ID
+- `POST /api/categories` → Crée une nouvelle catégorie
+- `DELETE /api/categories/{id}` → Supprime une catégorie
+
+#### 🔹 Produits
+
+- `POST /api/products` → Crée un produit **avec une catégorie**
+
+### 🧪 Exemples de tests avec Postman
+
+#### 1. Créer une catégorie
+
+**POST** `/api/categories`
+
+```json
+{
+  "name": "T-shirts"
+}
+```
+➡️ Réponse :
+
+```json
+{
+  "id": 1,
+  "name": "T-shirts"
+}
+```
+#### 2. Créer un produit avec une catégorie
+POST /api/products
+
+```json
+{
+  "name": "T-shirt bleu oversize",
+  "description": "T-shirt ample en coton biologique",
+  "price": 24.99,
+  "imageUrl": "https://example.com/images/tshirt-blue.png",
+  "stock": 80,
+  "category": {
+    "id": 1
+  }
+}
+```
+➡️ Le produit sera lié à la catégorie "T-shirts" (ID 1).
+---
+
+✅ Cette étape permet désormais d’organiser les produits par catégorie dans la base de données shopease_db.
