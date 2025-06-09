@@ -330,3 +330,19 @@ public enum Role {
 @Enumerated(EnumType.STRING)
 private Role role;
 ```
+
+#### 🔸 2. Création des classes DTO (Data Transfer Objects) pour la gestion d'authentification
+
+Afin de structurer proprement les échanges de données entre le frontend et le backend, j'ai créé un package `dto` contenant les classes suivantes :
+
+- `RegisterRequest` : contient les informations d'inscription envoyées par l'utilisateur (`firstname`, `lastname`, `username`, `email`, `password`).
+- `LoginRequest` : contient les identifiants de connexion (`username`, `password`).
+- `AuthResponse` : contient la réponse après authentification réussie (token JWT).
+
+#### 🎯 Objectifs de cette approche :
+- Séparer la logique métier (`User`) des objets échangés via l'API (meilleure lisibilité et évolutivité).
+- Protéger les données sensibles (ne jamais exposer directement l’entité `User`).
+- Faciliter la validation des champs utilisateur avec Spring Boot.
+- Permettre une plus grande flexibilité dans l’évolution du frontend et du backend.
+
+✅ Cette approche respecte les bonnes pratiques d’architecture en Java/Spring, notamment la séparation des responsabilités (SoC) et l'encapsulation des données.
