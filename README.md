@@ -308,9 +308,9 @@ Ce module permet la gestion des utilisateurs avec rôles (CLIENT ou ADMIN), l’
 ### ⚙️ Dépendances ajoutées dans `pom.xml`
 
 - JSON Web Token (JJWT) :
-* jjwt-api
-* jjwt-impl
-* jjwt-jackson
+  * jjwt-api
+  * jjwt-impl
+  * jjwt-jackson
 
 ### 🧱 Étapes réalisées
 
@@ -346,3 +346,32 @@ Afin de structurer proprement les échanges de données entre le frontend et le 
 - Permettre une plus grande flexibilité dans l’évolution du frontend et du backend.
 
 ✅ Cette approche respecte les bonnes pratiques d’architecture en Java/Spring, notamment la séparation des responsabilités (SoC) et l'encapsulation des données.
+
+#### 🔸 3. Création des Services JWT (gestion de tokens JWT) et Auth (uthentification)
+
+Cette étape met en place le cœur du système d’authentification basé sur **JWT**. Elle permet de :
+- Générer un token sécurisé lors de l’inscription ou de la connexion
+- Vérifier la validité d’un token (signature, expiration, correspondance avec l’utilisateur)
+
+### 🔧 Composants ajoutés
+
+#### ✅ `JwtService.java`
+
+- Génère un token JWT signé pour un utilisateur, en incluant son `username` dans le payload.
+- Extrait l’identité (nom d’utilisateur) à partir du token (`extractUsername()`).
+- Vérifie si le token est expiré ou toujours valide.
+- Utilise l’algorithme **HMAC-SHA256** avec une clé secrète pour signer les tokens.  
+
+Ce service est centralisé afin de **séparer la logique cryptographique** du reste du code métier.
+
+#### ✅ `AuthService.java`
+- **Inscription (`register`)** :
+  - Reçoit les données du DTO `RegisterRequest`
+  - Encode le mot de passe avec `PasswordEncoder`
+  - Crée un utilisateur avec un rôle par défaut (ex. : `CLIENT`)
+  - Sauvegarde l’utilisateur
+  - Génère un JWT et le renvoie dans un objet `AuthResponse`
+
+- **Connexion (`authenticate`)** :
+  - Vérifie les identifiants : `mot de passe` et `username`
+  - Génère un JWT et le renvoie dans `AuthResponse`
