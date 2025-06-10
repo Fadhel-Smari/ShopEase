@@ -375,3 +375,20 @@ Ce service est centralisé afin de **séparer la logique cryptographique** du re
 - **Connexion (`authenticate`)** :
   - Vérifie les identifiants : `mot de passe` et `username`
   - Génère un JWT et le renvoie dans `AuthResponse`
+  
+#### 🔸 4. Création de controlleur AuthController
+
+Exposer les endpoints HTTP permettant aux clients de s’inscrire ou de se connecter à la plateforme **ShopEase**. Ces opérations utilisent le service `AuthService` et retournent un **token JWT** en réponse.
+
+### 🌐 Composant ajouté
+
+#### ✅ `AuthController.java`
+- Contrôleur REST accessible via `/api/auth`
+- Deux endpoints disponibles :
+
+| Méthode | URL               | Description            |
+|---------|-------------------|------------------------|
+| POST    | `/register`       | Inscription d’un utilisateur |
+| POST    | `/login`          | Authentification d’un utilisateur |
+
+- Chaque requête utilise un DTO (`RegisterRequest` ou `LoginRequest`) et retourne un `AuthResponse` contenant le **JWT**
