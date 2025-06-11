@@ -11,6 +11,7 @@ package com.shopease.backend.service;
  * @author Fadhel Smari
  */
 
+import com.shopease.backend.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,7 +44,7 @@ public class JwtService {
     /**
      * Génère un token JWT basé sur le nom d'utilisateur fourni.
      *
-     * @param username le nom d'utilisateur à inclure dans le token.
+     * @param username le nom d'à inclure dans le token.
      * @return une chaîne JWT signée.
      */
     public String generateToken(String username) {
@@ -59,12 +60,12 @@ public class JwtService {
      * Vérifie si le token JWT est valide pour l'utilisateur fourni.
      *
      * @param token le token JWT à valider.
-     * @param userDetails les informations de l'utilisateur authentifié.
+     * @param username les informations de l'utilisateur authentifié.
      * @return {@code true} si le token est valide, {@code false} sinon.
      */
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username != null && username.equals(userDetails.getUsername()));
+    public boolean isTokenValid(String token, String username) {
+        final String extractedUsername = extractUsername(token);
+        return (extractedUsername.equals(username)) && !isTokenExpired(token);
     }
 
     /**
@@ -74,25 +75,31 @@ public class JwtService {
      * @return le nom d'utilisateur extrait du token.
      */
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return extractAllClaims(token).getSubject();
+    }
+    /**
+     * Extrait tous les claims (informations) contenus dans le token JWT.
+     *
+     * Cette méthode décode le token JWT en utilisant la clé de signature et
+     * retourne le corps (payload) du token sous forme de Claims, contenant
+     * des données comme le sujet, la date d'expiration, etc.
+     *
+     * @param token le token JWT à analyser
+     * @return un objet {@link io.jsonwebtoken.Claims} contenant toutes les informations du token
+     */
+    private Claims extractAllClaims(String token) {
+        // Crée un parser JWT avec la clé de signature secrète
+        return Jwts.parser()
+                // Définit la clé de signature utilisée pour vérifier l’authenticité du token
+                .setSigningKey(getSigningKey())
+                // Construit le parser
+                .build()
+                // Analyse le token JWT et retourne un objet Jws<Claims>
+                .parseClaimsJws(token)
+                // Récupère le corps du token (les claims réels)
+                .getBody();
     }
 
-    /**
-     * Extrait une information (claim) spécifique du token JWT à l'aide d'un résolveur.
-     *
-     * @param token le token JWT à analyser.
-     * @param resolver une fonction qui définit quel claim extraire.
-     * @param <T> le type du claim extrait.
-     * @return la valeur extraite du claim.
-     */
-    public <T> T extractClaim(String token, Function<Claims, T> resolver) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return resolver.apply(claims);
-    }
 
     /**
      * Vérifie si le token JWT est expiré.
@@ -101,6 +108,6 @@ public class JwtService {
      * @return {@code true} si le token est expiré, {@code false} sinon.
      */
     private boolean isTokenExpired(String token) {
-        return extractClaim(token, Claims::getExpiration).before(new Date());
+        return extractAllClaims(token).getExpiration().before(new Date());
     }
 }
