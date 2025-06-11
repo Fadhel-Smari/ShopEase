@@ -392,3 +392,115 @@ Exposer les endpoints HTTP permettant aux clients de s’inscrire ou de se conne
 | POST    | `/login`          | Authentification d’un utilisateur |
 
 - Chaque requête utilise un DTO (`RegisterRequest` ou `LoginRequest`) et retourne un `AuthResponse` contenant le **JWT**
+
+#### 🔸 5. Création du filtre JWT
+
+Ajouter un filtre personnalisé pour :
+- Intercepter chaque requête HTTP
+- Vérifier la présence d’un token JWT valide dans le header `Authorization`
+- Extraire le nom d'utilisateur (email) du token
+- Charger l’utilisateur depuis la base de données
+- Authentifier l’utilisateur dans le contexte de Spring Security
+
+### 🔧 Composant ajouté
+
+#### ✅ `JwtAuthenticationFilter.java` (dans le package `config`)
+- Extends `OncePerRequestFilter` pour garantir une exécution unique par requête
+- Vérifie la présence d’un header `Authorization: Bearer <token>`
+- Utilise le `JwtService` pour extraire et valider le token
+- Charge l’utilisateur depuis la BD avec `UserRepository`
+- Authentifie l’utilisateur dans Spring Security (`SecurityContextHolder`)
+
+#### 🔸 6. Configuration de la sécurité avec Spring Security
+
+Configurer la sécurité de l’application pour :
+- Autoriser librement les endpoints d’authentification (`/api/auth/**`) (inscription, connexion)
+- Protéger toutes les autres routes, nécessitant une authentification
+- Ajouter le filtre `JwtAuthenticationFilter` dans la chaîne de filtres
+avant le filtre standard d’authentification addFilterBefore()
+- Désactiver la gestion de session (stateless API REST)
+- Désactiver CSRF (non nécessaire pour API REST)
+- Configurer l’encodeur de mot de passe (BCrypt)
+
+### 🔧 Composant ajouté
+
+#### ✅ `SecurityConfig.java`
+- Définit un `SecurityFilterChain` avec les règles de sécurité
+- Utilise les nouvelles méthodes recommandées dans Spring Security
+- Fournit un bean `PasswordEncoder` pour encoder les mots de passe
+- Fournit un bean `AuthenticationManager` nécessaire pour l’authentification dans le service
+
+## 🧪 Tests – Authentification via Postman
+
+### 📌 Objectif
+Tester les routes principales d’authentification :
+- `/api/auth/register` : inscription
+- `/api/auth/login` : connexion
+- Accès à une route protégée avec un token JWT
+
+
+### 1️⃣ Inscription (POST /api/auth/register)
+
+**URL :**
+```bash
+POST http://localhost:8080/api/auth/register
+```
+**Body (JSON) :**
+```json
+{
+  "firstname": "Fadhel",
+  "lastname": "Smari",
+  "username": "fadhel123",
+  "email": "fadhel@example.com",
+  "password": "123456",
+}
+```
+
+**Réponse :**
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWRoZWwxMjMiLCJpYXQiOjE3NDk0MDQyNjEsImV4cCI6MTc0OTQ5MDY2MX0.EikfjsVUHDtjPQAUou-EvdIXP_jRS8evpdQ-agVtVhw"
+}
+```
+
+### 2️⃣ Connexion (POST /api/auth/login)
+**URL :**
+```bash
+POST http://localhost:8080/api/auth/login
+```
+**Body (JSON) :**
+
+```json
+{
+  "username": "fadhel123",
+  "password": "123456"
+}
+```
+**Réponse :**
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWRoZWwxMjMiLCJpYXQiOjE3NDk0MDQyNzEsImV4cCI6MTc0OTQ5MDY3MX0.eaO2jJwvUTVfcEx7XyYU25AgIRhyqjAi45TxgQUbvSo"
+}
+```
+### 3️⃣ Accès à une route protégée (GET /api/users par exemple)
+**URL :**
+
+```bash
+GET http://localhost:8080/api/users
+```
+**Headers :**
+
+```makefile
+Authorization: Bearer <token>
+```
+✅ Remplace <token> par le token obtenu lors du login.
+
+**Résultat attendu :**
+
+Si le token est valide → accès autorisé.
+
+Sinon → réponse 403 (forbidden).
+
+➡️ Ces tests permettent de valider le fonctionnement complet du module d’authentification basé sur JWT.
+
+
