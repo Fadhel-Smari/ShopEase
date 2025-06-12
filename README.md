@@ -409,3 +409,32 @@ Configurer la sécurité de l’application pour :
 - Utilise les nouvelles méthodes recommandées dans Spring Security 6.2+
 - Fournit un bean `PasswordEncoder` pour encoder les mots de passe
 - Fournit un bean `AuthenticationManager` nécessaire pour l’authentification dans le service
+
+#### 🔸 6. Gestion de l’utilisateur authentifié avec Spring Security
+
+### 📌 Objectif
+Dans le cadre de l'authentification sécurisée avec Spring Security, deux classes sont nécessaires :
+
+- Une classe `CustomUserDetails` qui implémente `UserDetails`, utilisée pour représenter un utilisateur connecté dans le contexte de sécurité.
+- Une classe `CustomUserDetailsService` qui implémente `UserDetailsService` et permet à Spring de charger un utilisateur depuis la base de données à partir de son nom d'utilisateur.
+
+---
+
+### 🎯 Pourquoi ne pas utiliser directement l’entité `User` ?
+
+- **Séparation des responsabilités** : `User` est une entité JPA persistée en base, tandis que `CustomUserDetails` est utilisée uniquement dans le contexte de Spring Security.
+- **Souplesse et maintenabilité** : toute la logique de sécurité reste découplée de la couche de persistance.
+- **Meilleures pratiques** : éviter de polluer les entités métiers avec des dépendances du framework de sécurité.
+
+---
+
+### ✅ Fonctionnalités ajoutées
+
+- Création de la classe `CustomUserDetails` :
+  - Implémente `UserDetails`
+  - Fournit les informations nécessaires à l’authentification : `username`, `password`, rôles (`ROLE_ADMIN`, `ROLE_CLIENT`)
+ 
+- Création de la classe `CustomUserDetailsService` :
+  - Implémente `UserDetailsService`
+  - Charge un utilisateur depuis la base via `UserRepository`
+  - Vérifie si l’utilisateur existe et renvoie un objet `CustomUserDetails`
