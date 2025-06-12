@@ -392,3 +392,20 @@ Exposer les endpoints HTTP permettant aux clients de s’inscrire ou de se conne
 | POST    | `/login`          | Authentification d’un utilisateur |
 
 - Chaque requête utilise un DTO (`RegisterRequest` ou `LoginRequest`) et retourne un `AuthResponse` contenant le **JWT**
+
+#### 🔸 5. Configuration de la sécurité avec Spring Security
+
+Configurer la sécurité de l’application pour :
+- Autoriser librement les endpoints d’authentification (`/api/auth/**`)
+- Protéger toutes les autres routes, nécessitant une authentification
+- Désactiver la gestion de session (stateless API REST)
+- Désactiver CSRF (non nécessaire pour API REST)
+- Configurer l’encodeur de mot de passe (BCrypt)
+
+### 🔧 Composant ajouté
+
+#### ✅ `SecurityConfig.java`
+- Définit un `SecurityFilterChain` avec les règles de sécurité
+- Utilise les nouvelles méthodes recommandées dans Spring Security 6.2+
+- Fournit un bean `PasswordEncoder` pour encoder les mots de passe
+- Fournit un bean `AuthenticationManager` nécessaire pour l’authentification dans le service
