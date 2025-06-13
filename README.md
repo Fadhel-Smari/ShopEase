@@ -571,7 +571,18 @@ Il repose sur l’identification de l’utilisateur à partir du JWT contenu dan
   - `email`
   - `role`
 
-📂 Emplacement : `src/main/java/com/shopease/backend/dto/`
+---
+
+### 🧱 Étape 2 : Ajout des fonctionnalités de gestion de profil dans `UserService`
+
+Le service `UserService` gère la logique métier liée au profil utilisateur connecté.
+
+#### Méthodes principales :
+- `getUserProfile()` :  
+  Récupère les données du profil en fonction du nom d’utilisateur authentifié (via JWT).
+- `updateUserProfile(UpdateProfileRequest updateRequest)` :  
+  Met à jour le prénom, nom et email de l’utilisateur connecté, puis sauvegarde en base.
 
 ---
+
 
