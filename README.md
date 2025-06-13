@@ -438,3 +438,21 @@ Dans le cadre de l'authentification sécurisée avec Spring Security, deux class
   - Implémente `UserDetailsService`
   - Charge un utilisateur depuis la base via `UserRepository`
   - Vérifie si l’utilisateur existe et renvoie un objet `CustomUserDetails`
+  
+#### 🔸 7. Création du filtre JWT
+
+Ajouter un filtre personnalisé pour :
+- Intercepter chaque requête HTTP
+- Vérifier la présence d’un token JWT valide dans le header `Authorization`
+- Extraire le nom d'utilisateur (email) du token
+- Charger l’utilisateur depuis la base de données
+- Authentifier l’utilisateur dans le contexte de Spring Security
+
+### 🔧 Composant ajouté
+
+#### ✅ `JwtAuthenticationFilter.java` (dans le package `config`)
+- Extends `OncePerRequestFilter` pour garantir une exécution unique par requête
+- Vérifie la présence d’un header `Authorization: Bearer <token>`
+- Utilise le `JwtService` pour extraire et valider le token
+- Charge l’utilisateur depuis la BD avec `UserRepository`
+- Authentifie l’utilisateur dans Spring Security (`SecurityContextHolder`)
