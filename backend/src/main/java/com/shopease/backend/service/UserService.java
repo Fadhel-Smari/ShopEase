@@ -49,6 +49,12 @@ public class UserService {
         );
     }
 
+    /**
+     * Met à jour les informations du profil de l'utilisateur connecté.
+     *
+     * @param updateRequest les nouvelles informations à enregistrer
+     * @return UserProfileResponse contenant les données mises à jour
+     */
     public UserProfileResponse updateUserProfile(UpdateProfileRequest updateRequest) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username);

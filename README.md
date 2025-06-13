@@ -585,4 +585,21 @@ Le service `UserService` gère la logique métier liée au profil utilisateur co
 
 ---
 
+### 🧱 Étape 3 : Ajout des endpoints de gestion de profil dans `UserController`
+
+#### 📌 Objectif
+
+Cette étape consiste à exposer deux nouvelles API REST dans le contrôleur `UserController` pour permettre à l'utilisateur connecté de consulter et modifier son profil.
+
+#### 🔍 Détails
+
+- **GET /api/users/profile** :  
+  Récupère les informations du profil de l'utilisateur authentifié.  
+  Le contrôleur ne reçoit pas le nom d'utilisateur, il délègue au service qui utilise le contexte de sécurité Spring Security pour identifier l'utilisateur.
+
+- **PUT /api/users/profile** :  
+  Met à jour les informations du profil de l'utilisateur connecté à partir des données fournies dans la requête.  
+  Là aussi, la récupération de l'identité se fait dans le service.
+
+
 
