@@ -539,3 +539,39 @@ Authorization: Bearer <token>
 Si le token est valide → accès autorisé.
 
 Sinon → réponse 403 (forbidden) ou 401 (unauthorized).
+
+---
+
+## 👤 Module : Gestion du profil utilisateur
+
+### 🎯 Objectif
+Ce module permet à un utilisateur connecté de :
+- Consulter ses informations personnelles
+- Mettre à jour ses données (prénom, nom, email)
+
+Il repose sur l’identification de l’utilisateur à partir du JWT contenu dans le `SecurityContext`.
+
+---
+
+### 🧱 Étape 1 : Création des DTOs du profil utilisateur
+
+#### ✅ `UpdateProfileRequest`
+- Sert de **corps de la requête** lors d'une mise à jour de profil
+- Contient les champs :
+  - `firstname`
+  - `lastname`
+  - `email`
+
+#### ✅ `UserProfileResponse`
+- Sert de **corps de réponse** après consultation ou mise à jour du profil
+- Contient les champs :
+  - `firstname`
+  - `lastname`
+  - `username`
+  - `email`
+  - `role`
+
+📂 Emplacement : `src/main/java/com/shopease/backend/dto/`
+
+---
+
