@@ -456,3 +456,15 @@ Ajouter un filtre personnalisé pour :
 - Utilise le `JwtService` pour extraire et valider le token
 - Charge l’utilisateur depuis la BD avec `UserRepository`
 - Authentifie l’utilisateur dans Spring Security (`SecurityContextHolder`)
+
+#### 🔸 8. Configuration de la sécurité avec le filtre JWT
+
+### ⚙️ Modifications apportées à `SecurityConfig.java` pour la gestion du JWT
+
+- Ajout du **filtre `JwtAuthenticationFilter`** dans la chaîne de sécurité, placé **avant** `UsernamePasswordAuthenticationFilter`.
+- Intégration d’un **`AuthenticationProvider` personnalisé** (`DaoAuthenticationProvider`) configuré avec :
+  - le service `CustomUserDetailsService` pour charger les utilisateurs
+  - un `PasswordEncoder` utilisant l’algorithme `BCrypt`
+- Passage de la politique de session à **stateless** avec `SessionCreationPolicy.STATELESS` pour refléter le fonctionnement des JWT (aucune session stockée côté serveur).
+- Conservation des accès libres à la route `/api/auth/**` (inscription et connexion).
+- Protection de toutes les autres routes par authentification JWT.
