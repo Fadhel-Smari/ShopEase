@@ -601,5 +601,65 @@ Cette étape consiste à exposer deux nouvelles API REST dans le contrôleur `Us
   Met à jour les informations du profil de l'utilisateur connecté à partir des données fournies dans la requête.  
   Là aussi, la récupération de l'identité se fait dans le service.
 
+## 🧪 Tests – Gestion du profil utilisateur via Postman
+
+### 📌 Objectif
+Tester les endpoints liés à la gestion du profil utilisateur, en s'assurant que :
+- L'utilisateur authentifié peut consulter son profil via `GET /api/users/profile`
+- L'utilisateur authentifié peut modifier son profil via `PUT /api/users/profile`
+- Les modifications sont bien prises en compte dans la base de données
+- L’accès aux routes protégées nécessite un token JWT valide
 
 
+### 1️⃣ Consultation du profil (GET /api/users/profile)
+
+**URL :**
+```bash
+GET http://localhost:8080/api/users/profile
+```
+
+**Headers :**
+```mikefile
+Authorization: Bearer <token_jwt_valide>
+```
+
+**Réponse :**
+```json
+{
+  "firstname": "Fadhel",
+  "lastname": "Smari",
+  "username": "fadhel123",
+  "email": "fadhel@example.com",
+  "role": "CLIENT"
+}
+```
+
+
+### 2️⃣ Mise à jour du profil (PUT /api/users/profile)
+```bash
+PUT http://localhost:8080/api/users/profile
+```
+**Headers :**
+```mikefile
+Authorization: Bearer <token_jwt_valide>
+```
+
+**Body (JSON) :**
+
+```json
+{
+  "firstname": "FadhelModifié",
+  "lastname": "SmariModifié",
+  "email": "fadhelmodifie@example.com"
+}
+```
+**Réponse :**
+```json
+{
+  "firstname": "FadhelModifié",
+  "lastname": "SmariModifié",
+  "username": "fadhel123",
+  "email": "fadhelmodifie@example.com",
+  "role": "CLIENT"
+}
+```
