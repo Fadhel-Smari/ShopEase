@@ -665,15 +665,15 @@ Authorization: Bearer <token_jwt_valide>
 ```
 ---
 
-## 🔎 Module : Recherche avancée de produits avec filtres dynamiques (JPA Specification)
+## 🔎 Module : Recherche avancée de produits avec filtres dynamiques (JPA Specifications)
 
 ### 📌 Introduction
-Ce module introduit une **recherche multi-critères avancée** dans l’API des produits à l’aide de `Specification` de Spring Data JPA.  
+Ce module introduit une **recherche multi-critères avancée** dans l’API des produits à l’aide de `Specifications` de Spring Data JPA.  
 Il permet d’enchaîner dynamiquement des conditions (nom, catégorie, prix, stock) sans devoir écrire manuellement des requêtes SQL complexes.
 
 ---
 
-### 🎯 Pourquoi utiliser `Specification` ?
+### 🎯 Pourquoi utiliser `Specifications` ?
 
 - 🔁 Tous les filtres sont **optionnels**
 - 🧩 Requête SQL générée dynamiquement à partir des critères fournis
@@ -690,3 +690,16 @@ Il permet d’enchaîner dynamiquement des conditions (nom, catégorie, prix, st
 - 📂 `categoryId` (filtrage par catégorie)
 - 💰 `minPrice` / `maxPrice` (intervalle de prix)
 - 📦 `inStock` (produits en stock)
+
+## 🧱 Étape : Mise à jour de `ProductRepository` – Support des Specifications
+
+### 📌 Objectif
+Adapter le dépôt `ProductRepository` pour permettre l’utilisation des critères dynamiques définis dans `ProductSpecification`.
+
+---
+
+### 🎯 Détail des modifications
+
+- Le dépôt `ProductRepository` hérite maintenant de l’interface `JpaSpecificationExecutor<Product>`.
+- Cela permet d’utiliser la méthode `findAll(Specification spec)` avec des critères composables dynamiquement.
+- Aucun code supplémentaire requis : Spring Data JPA s’occupe de tout.
