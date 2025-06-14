@@ -663,3 +663,30 @@ Authorization: Bearer <token_jwt_valide>
   "role": "CLIENT"
 }
 ```
+---
+
+## 🔎 Module : Recherche avancée de produits avec filtres dynamiques (JPA Specification)
+
+### 📌 Introduction
+Ce module introduit une **recherche multi-critères avancée** dans l’API des produits à l’aide de `Specification` de Spring Data JPA.  
+Il permet d’enchaîner dynamiquement des conditions (nom, catégorie, prix, stock) sans devoir écrire manuellement des requêtes SQL complexes.
+
+---
+
+### 🎯 Pourquoi utiliser `Specification` ?
+
+- 🔁 Tous les filtres sont **optionnels**
+- 🧩 Requête SQL générée dynamiquement à partir des critères fournis
+- 🧼 Séparation claire de la logique métier
+- ✅ Recommandé pour des API REST robustes
+
+---
+
+### 🧱 Étape 1 : Création de la classe `ProductSpecification` – Recherche multi-critères dynamique
+
+### 🛠️ Filtres pris en charge :
+
+- 🔍 `name` (nom du produit, recherche floue)
+- 📂 `categoryId` (filtrage par catégorie)
+- 💰 `minPrice` / `maxPrice` (intervalle de prix)
+- 📦 `inStock` (produits en stock)
