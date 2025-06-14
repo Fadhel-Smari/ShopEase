@@ -691,7 +691,7 @@ Il permet d’enchaîner dynamiquement des conditions (nom, catégorie, prix, st
 - 💰 `minPrice` / `maxPrice` (intervalle de prix)
 - 📦 `inStock` (produits en stock)
 
-## 🧱 Étape : Mise à jour de `ProductRepository` – Support des Specifications
+## 🧱 Étape 2 : Mise à jour de `ProductRepository` – Support des Specifications
 
 ### 📌 Objectif
 Adapter le dépôt `ProductRepository` pour permettre l’utilisation des critères dynamiques définis dans `ProductSpecification`.
@@ -703,3 +703,12 @@ Adapter le dépôt `ProductRepository` pour permettre l’utilisation des critè
 - Le dépôt `ProductRepository` hérite maintenant de l’interface `JpaSpecificationExecutor<Product>`.
 - Cela permet d’utiliser la méthode `findAll(Specification spec)` avec des critères composables dynamiquement.
 - Aucun code supplémentaire requis : Spring Data JPA s’occupe de tout.
+
+## 🧱 Étape 3 : Création des DTO pour le module Produits
+
+Dans cette étape, nous avons créé deux DTO principaux pour le module Produits :
+
+- `ProductFilterRequest` : représente les critères de recherche et de filtrage que l’utilisateur peut soumettre pour rechercher des produits (ex : nom, catégorie, fourchette de prix).
+- `ProductResponse` : structure les données retournées par l’API pour chaque produit, en incluant les informations pertinentes comme le nom, la description, le prix, le stock, et la catégorie.
+
+
