@@ -711,4 +711,22 @@ Dans cette étape, nous avons créé deux DTO principaux pour le module Produits
 - `ProductFilterRequest` : représente les critères de recherche et de filtrage que l’utilisateur peut soumettre pour rechercher des produits (ex : nom, catégorie, fourchette de prix).
 - `ProductResponse` : structure les données retournées par l’API pour chaque produit, en incluant les informations pertinentes comme le nom, la description, le prix, le stock, et la catégorie.
 
+## 🧱 Étape 4 : Ajout de la logique métier dans ProductService
+📌 Objectif
+Compléter la logique métier du module produits en utilisant les DTO pour exposer les données, et intégrer la recherche avancée dynamique à l’aide des Specifications JPA.
 
+✅ Modifications apportées
+- Conversion vers `ProductResponse` dans toutes les méthodes de lecture
+    - Remplace les entités exposées directement par des DTOs (List<ProductResponse>, ProductResponse).
+
+- Gestion de l’exception `ResourceNotFoundException` pour `getProductById`
+
+- Ajout de la méthode `searchProducts()` avec support de :
+
+    - Filtrage par nom (name)
+
+    - Filtrage par categoryId
+
+    - Filtrage par plage de prix (minPrice, maxPrice)
+
+- Méthode privée `mapToProductResponse(Product)` pour centraliser la conversion vers le DTO
