@@ -845,6 +845,35 @@ Restreindre l’accès aux fonctionnalités de gestion des produits selon les r�
 - ✅ Accès complet à toutes les routes `/api/products/**` avec un JWT de rôle `ADMIN` → **autorisé**
 
 
+## ✅ Étape 3 : Sécurisation du contrôleur `CategoryController`
+
+### 📌 Objectif
+
+Restreindre l’accès aux fonctionnalités de gestion des catégories selon les rôles :
+
+- `CLIENT` : peut uniquement consulter les catégories.
+- `ADMIN` : peut créer ou supprimer une catégorie.
+
+---
+
+### 🔐 Règles de sécurité appliquées à `CategoryController` :
+
+| Méthode HTTP | Endpoint                | Description             | Accès autorisé à     |
+|--------------|------------------------|-------------------------|---------------------|
+| `GET`        | `/api/categories`      | Lister toutes les catégories | `CLIENT`, `ADMIN`   |
+| `GET`        | `/api/categories/{id}` | Consulter une catégorie par ID | `CLIENT`, `ADMIN`   |
+| `POST`       | `/api/categories`      | Créer une nouvelle catégorie | `ADMIN` uniquement  |
+| `DELETE`     | `/api/categories/{id}` | Supprimer une catégorie | `ADMIN` uniquement  |
+
+---
+### 🧪 Tests recommandés (Postman)
+
+- ✅ CLIENT peut consulter toutes les catégories et une catégorie par ID
+
+- ❌ CLIENT ne peut pas créer ni supprimer une catégorie → 403 Forbidden
+
+- ✅ ADMIN a un accès complet à toutes les routes catégories
+
 
 
 
