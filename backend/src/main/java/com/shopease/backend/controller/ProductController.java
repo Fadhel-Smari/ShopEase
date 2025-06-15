@@ -18,6 +18,7 @@ import com.shopease.backend.dto.ProductFilterRequest;
 import com.shopease.backend.dto.ProductResponse;
 import com.shopease.backend.entity.Product;
 import com.shopease.backend.service.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +42,7 @@ public class ProductController {
      * @return liste des produits au format ProductResponse
      */
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
     public List<ProductResponse> getAllProducts() {
         return productService.getAllProducts();
     }
@@ -52,6 +54,7 @@ public class ProductController {
      * @return le produit trouvé au format ProductResponse
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
     public ProductResponse getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
@@ -63,6 +66,7 @@ public class ProductController {
      * @return le produit enregistré
      */
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Product createProduct(@RequestBody Product product) {
         return productService.saveProduct(product);
     }
@@ -75,6 +79,7 @@ public class ProductController {
      * @return le produit mis à jour
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
         product.setId(id);
         return productService.saveProduct(product);
@@ -86,6 +91,7 @@ public class ProductController {
      * @param id identifiant du produit à supprimer
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
     }
@@ -97,6 +103,7 @@ public class ProductController {
      * @return liste des produits correspondant aux filtres
      */
     @PostMapping("/search")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
     public List<ProductResponse> searchProducts(@RequestBody ProductFilterRequest filterRequest) {
         return productService.searchProducts(filterRequest);
     }

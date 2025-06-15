@@ -806,3 +806,50 @@ Cela permet de protéger certaines routes sensibles (ex. : création, suppressio
 - ✅ Accès à `/api/users/profile` avec un `JWT` de rôle `CLIENT` → **autorisé**
 - ❌ Accès à `/api/users` avec un `JWT` de rôle `CLIENT` → **interdit (403)**
 - ✅ Accès à `/api/users` avec un `JWT` de rôle `ADMIN` → **autorisé**
+
+
+## ✅ Étape 2 : Sécurisation du contrôleur `ProductController`
+
+### 📌 Objectif
+
+Restreindre l’accès aux fonctionnalités de gestion des produits selon les rôles :
+
+- `CLIENT` : peut uniquement consulter les produits ou effectuer une recherche.
+- `ADMIN` : peut créer, modifier ou supprimer des produits.
+
+---
+
+### 🔐 Règles de sécurité appliquées à `ProductController` :
+
+| Méthode HTTP | Endpoint                    | Description                          | Accès autorisé à     |
+|--------------|------------------------------|--------------------------------------|-----------------------|
+| `GET`        | `/api/products`              | Lister tous les produits             | `CLIENT`, `ADMIN`     |
+| `GET`        | `/api/products/{id}`         | Consulter un produit par ID          | `CLIENT`, `ADMIN`     |
+| `POST`       | `/api/products/search`       | Recherche filtrée                    | `CLIENT`, `ADMIN`     |
+| `POST`       | `/api/products`              | Créer un nouveau produit             | `ADMIN` uniquement     |
+| `PUT`        | `/api/products/{id}`         | Modifier un produit existant         | `ADMIN` uniquement     |
+| `DELETE`     | `/api/products/{id}`         | Supprimer un produit                 | `ADMIN` uniquement     |
+
+---
+
+## 🧪 Tests via Postman
+
+- ✅ Accès à `GET /api/products` avec un JWT de rôle `CLIENT` → **autorisé**
+- ✅ Accès à `GET /api/products/{id}` avec un JWT de rôle `CLIENT` → **autorisé**
+- ✅ Accès à `POST /api/products/search` avec un JWT de rôle `CLIENT` → **autorisé**
+
+- ❌ Accès à `POST /api/products` avec un JWT de rôle `CLIENT` → **interdit (403)**
+- ❌ Accès à `PUT /api/products/{id}` avec un JWT de rôle `CLIENT` → **interdit (403)**
+- ❌ Accès à `DELETE /api/products/{id}` avec un JWT de rôle `CLIENT` → **interdit (403)**
+
+- ✅ Accès complet à toutes les routes `/api/products/**` avec un JWT de rôle `ADMIN` → **autorisé**
+
+
+
+
+
+
+
+
+
+
