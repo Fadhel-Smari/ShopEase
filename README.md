@@ -875,10 +875,29 @@ Restreindre l’accès aux fonctionnalités de gestion des catégories selon les
 - ✅ ADMIN a un accès complet à toutes les routes catégories
 
 
+# 🛒 Module Panier
 
+## 🎯 Introduction
 
+Le module **Panier** permet aux utilisateurs de gérer leur panier d'achat dans l'application ShopEase. Ce module offre les fonctionnalités suivantes :
 
+- Ajouter un produit au panier
+- Modifier la quantité d’un produit dans le panier
+- Supprimer un produit du panier
+- Consulter le contenu du panier avec les totaux
 
+Le module est construit autour de l'entité `CartItem` qui représente un article dans le panier d’un utilisateur.
 
+---
 
+## ✅ Étape 1 : Création de l'entité `CartItem`
 
+L'entité `CartItem` correspond à un article dans le panier d’un utilisateur. Chaque article est lié à un utilisateur et à un produit spécifique, avec une quantité et un total calculé (prix unitaire × quantité).
+
+### 📌 Principales propriétés de `CartItem` :
+
+- `id` : identifiant unique de l'article dans le panier
+- `user` : l’utilisateur auquel appartient cet article de panier
+- `product` : le produit sélectionné
+- `quantity` : la quantité choisie par l'utilisateur
+- `totalPrice` : le prix total pour cet article (prix unitaire multiplié par la quantité)
