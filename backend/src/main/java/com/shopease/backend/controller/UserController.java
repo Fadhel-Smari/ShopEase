@@ -2,6 +2,7 @@ package com.shopease.backend.controller;
 
 import com.shopease.backend.entity.User;
 import com.shopease.backend.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.shopease.backend.dto.UpdateProfileRequest;
 import java.util.List;
@@ -19,11 +20,13 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public User createUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
@@ -34,6 +37,7 @@ public class UserController {
      * @return les données du profil utilisateur encapsulées dans un objet UserProfileResponse
      */
     @GetMapping("/profile")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public UserProfileResponse getUserProfile() {
         return userService.getUserProfile();
     }
@@ -45,6 +49,7 @@ public class UserController {
      * @return le profil utilisateur mis à jour encapsulé dans un objet UserProfileResponse
      */
     @PutMapping("/profile")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public UserProfileResponse updateUserProfile(@RequestBody UpdateProfileRequest updateRequest) {
         return userService.updateUserProfile(updateRequest);
     }

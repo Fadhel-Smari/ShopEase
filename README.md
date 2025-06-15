@@ -770,3 +770,39 @@ POST http://localhost:8080/api/products/search
 ✅ Résultat attendu : Liste filtrée de ProductResponse selon les critères.
 
 
+# 🛡️ Sécurisation des routes REST avec les rôles (CLIENT / ADMIN)
+
+## 🎯 Objectif
+
+Restreindre l'accès aux endpoints REST selon les rôles des utilisateurs (`CLIENT` ou `ADMIN`) à l’aide des annotations `@PreAuthorize`.  
+Cela permet de protéger certaines routes sensibles (ex. : création, suppression d’utilisateurs) tout en permettant l’accès au profil utilisateur pour les utilisateurs connectés.
+
+---
+
+## ✅ Étape 1 : Sécurisation du contrôleur `UserController`
+
+### 📌 Modifications effectuées :
+
+1. **Activation de la sécurité par méthode :**
+   - Ajout de l’annotation `@EnableMethodSecurity` dans la classe `SecurityConfig`.
+
+2. **Ajout des rôles avec `@PreAuthorize` dans `UserController` :**
+   - Seuls les `ADMIN` peuvent accéder aux méthodes globales (`getAllUsers`, `createUser`).
+   - Les utilisateurs ayant les rôles `CLIENT` ou `ADMIN` peuvent consulter ou modifier leur **profil**.
+
+### 🔐 Détail des autorisations appliquées :
+
+| Méthode                         | Endpoint                    | Accès autorisé à              |
+|----------------------------------|------------------------------|-------------------------------|
+| `GET`  `/api/users`              | Liste des utilisateurs       | `ADMIN` uniquement            |
+| `POST` `/api/users`              | Création d’un utilisateur    | `ADMIN` uniquement            |
+| `GET`  `/api/users/profile`      | Voir son propre profil       | `CLIENT` ou `ADMIN`           |
+| `PUT`  `/api/users/profile`      | Modifier son propre profil   | `CLIENT` ou `ADMIN`           |
+
+---
+
+## 🧪 Tests via Postman
+
+- ✅ Accès à `/api/users/profile` avec un `JWT` de rôle `CLIENT` → **autorisé**
+- ❌ Accès à `/api/users` avec un `JWT` de rôle `CLIENT` → **interdit (403)**
+- ✅ Accès à `/api/users` avec un `JWT` de rôle `ADMIN` → **autorisé**
