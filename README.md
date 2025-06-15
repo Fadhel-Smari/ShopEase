@@ -915,3 +915,22 @@ Cette interface étend `JpaRepository` afin de bénéficier des méthodes CRUD s
 - Création de l'interface `CartItemRepository` dans le package `repository`.
 - Extension de `JpaRepository<CartItem, Long>` pour la gestion des opérations CRUD.
 
+## ✅ Étape 3 : Création des DTOs pour la gestion du panier
+
+## 🎯 Objectif
+
+Créer les Data Transfer Objects (DTO) pour la gestion des interactions avec le panier :
+
+- **CartItemRequest** : Représente les données reçues pour ajouter ou modifier un article dans le panier (ex. : id du produit, quantité).
+- **CartItemResponse** : Structure les données envoyées pour un article du panier (ex. : id, nom produit, quantité, prix).
+- **CartResponse** : Contient l’état complet du panier, incluant la liste des articles et le total.
+
+---
+
+### 📌 Modifications effectuées :
+
+- Ajout de la classe `CartItemRequest` dans `dto/` pour recevoir les données client.
+- Ajout de la classe `CartItemResponse` dans `dto/` pour renvoyer les détails d’un item du panier.
+- Ajout de la classe `CartResponse` dans `dto/` pour représenter la vue globale du panier.
+
+
