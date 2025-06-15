@@ -933,4 +933,25 @@ Créer les Data Transfer Objects (DTO) pour la gestion des interactions avec le 
 - Ajout de la classe `CartItemResponse` dans `dto/` pour renvoyer les détails d’un item du panier.
 - Ajout de la classe `CartResponse` dans `dto/` pour représenter la vue globale du panier.
 
+## ✅ Étape 4 : Développement du service CartService
+
+## 🎯 Objectif
+
+Définir et implémenter la logique métier pour la gestion du panier :
+- ajout d’articles,
+- suppression,
+- mise à jour des quantités,
+- récupération de l’état complet du panier.
+
+Ces fonctionnalités utilisent `CartItemRepository` pour l’accès aux données.
+
+---
+
+### 📌 Modifications effectuées :
+
+- Création de l’interface `CartService` avec les méthodes métier clés.
+- Implémentation concrète dans `CartServiceImpl`.
+- Utilisation de `CartItemRepository` pour manipuler les données en base.
+
+
 
