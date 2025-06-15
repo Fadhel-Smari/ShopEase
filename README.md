@@ -730,3 +730,16 @@ Compléter la logique métier du module produits en utilisant les DTO pour expos
     - Filtrage par plage de prix (minPrice, maxPrice)
 
 - Méthode privée `mapToProductResponse(Product)` pour centraliser la conversion vers le DTO
+
+## 🧱 Étape 5 : Mise à jour de ProductController avec les DTOs et filtres dynamiques
+📌 Objectif
+Remplacer les retours d’entités Product par des DTOs ProductResponse, ajouter le support des filtres via ProductFilterRequest, et simplifier les retours (plus de Optional).
+
+✅ Changements effectués
+💡 Utilisation de ProductResponse dans les méthodes getAllProducts() et getProductById(Long id)
+
+🆕 Ajout d’un endpoint POST /api/products/search pour permettre la recherche de produits avec des filtres dynamiques :
+
+- nom partiel (name)
+- catégorie (categoryId)
+- plage de prix (minPrice, maxPrice)
