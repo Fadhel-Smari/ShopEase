@@ -901,3 +901,17 @@ L'entité `CartItem` correspond à un article dans le panier d’un utilisateur.
 - `product` : le produit sélectionné
 - `quantity` : la quantité choisie par l'utilisateur
 - `totalPrice` : le prix total pour cet article (prix unitaire multiplié par la quantité)
+
+## ✅ Étape 2 : Création de l'interface CartItemRepository
+
+## 🎯 Objectif
+
+Mettre en place l'interface `CartItemRepository` pour gérer la persistance des éléments du panier (`CartItem`) en base de données.
+Cette interface étend `JpaRepository` afin de bénéficier des méthodes CRUD standard fournies par Spring Data JPA.
+
+
+### 📌 Modifications effectuées :
+
+- Création de l'interface `CartItemRepository` dans le package `repository`.
+- Extension de `JpaRepository<CartItem, Long>` pour la gestion des opérations CRUD.
+
