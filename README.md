@@ -743,3 +743,30 @@ Remplacer les retours d’entités Product par des DTOs ProductResponse, ajouter
 - nom partiel (name)
 - catégorie (categoryId)
 - plage de prix (minPrice, maxPrice)
+
+🧪 Tests – Module Produits via Postman
+📌 Objectif
+Vérifier le bon fonctionnement des endpoints liés aux produits :
+
+1️⃣ Rechercher des produits avec filtres (POST /api/products/search)
+
+**URL :**
+
+```http
+POST http://localhost:8080/api/products/search
+```
+**Body (JSON) :**
+
+```json
+{
+  "name": "chaussure",
+  "categoryId": 2,
+  "minPrice": 50,
+  "maxPrice": 150
+}
+```
+🧠 Tous les champs sont optionnels.
+
+✅ Résultat attendu : Liste filtrée de ProductResponse selon les critères.
+
+
