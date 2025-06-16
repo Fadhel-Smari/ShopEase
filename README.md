@@ -953,5 +953,27 @@ Ces fonctionnalités utilisent `CartItemRepository` pour l’accès aux données
 - Implémentation concrète dans `CartServiceImpl`.
 - Utilisation de `CartItemRepository` pour manipuler les données en base.
 
+## ✅ Étape 5 : Création du contrôleur `CartController`
+
+## 🎯 Objectif
+
+Exposer les opérations du panier via une API RESTful accessible aux utilisateurs authentifiés.  
+Permettre à un utilisateur connecté (ayant le rôle `CLIENT`) de :
+
+- consulter son panier,
+- ajouter un produit au panier,
+- mettre à jour la quantité d’un produit,
+- supprimer un produit du panier.
+
+### 📌 Modifications effectuées :
+
+1. Création de la classe `CartController.java` dans `controller/`
+2. Protection des routes avec `@PreAuthorize("hasRole('CLIENT')")`
+3. Injection du `CartService` pour gérer les opérations métier.
+
+---
+
+
+
 
 
