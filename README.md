@@ -1107,3 +1107,24 @@ Il permet de stocker les informations relatives à chaque commande, notamment l�
 - `OrderItemRequest` : Requête pour un item avec `productId` et `quantity`.
 - `OrderResponse` : Réponse complète avec id, utilisateur, date, statut, total et liste d’items.
 - `OrderItemResponse` : Réponse pour un item, avec id produit, nom, quantité, prix.
+
+## ✅ Étape 3 : Repositories
+
+## 🎯 Objectif
+
+Créer les interfaces JPA pour accéder à la base de données et gérer les entités :
+
+- `Order` : pour la commande complète.
+- `OrderItem` : pour les produits inclus dans une commande.
+
+## Détails
+`OrderRepository` :
+- Hérite de `JpaRepository<Order, Long>`.
+- Ajout d'une méthode personnalisée :
+  - `List<Order> findByUserId(Long userId)` : permet d’obtenir toutes les commandes d’un utilisateur.
+
+`OrderItemRepository` :
+- Hérite de `JpaRepository<OrderItem, Long>`.
+- Gère les accès aux items de commande.
+
+
