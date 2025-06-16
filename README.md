@@ -1093,3 +1093,17 @@ Il permet de stocker les informations relatives à chaque commande, notamment l�
   - Liste des `OrderItem`.
 - `OrderItem` :
   - Identifiant, référence vers la commande, produit, quantité, prix unitaire.
+  
+## ✅ Étape 2 : DTOs
+
+## 🎯 Objectif
+
+- Créer les objets de transfert (DTO) pour la commande et ses items.
+- Faciliter l’échange de données entre le frontend et le backend sans exposer directement les entités JPA.
+
+## Détails des DTOs
+
+- `OrderRequest` : Requête pour créer une commande, contient la liste des `OrderItemRequest`.
+- `OrderItemRequest` : Requête pour un item avec `productId` et `quantity`.
+- `OrderResponse` : Réponse complète avec id, utilisateur, date, statut, total et liste d’items.
+- `OrderItemResponse` : Réponse pour un item, avec id produit, nom, quantité, prix.
