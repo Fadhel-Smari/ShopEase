@@ -972,8 +972,100 @@ Permettre à un utilisateur connecté (ayant le rôle `CLIENT`) de :
 3. Injection du `CartService` pour gérer les opérations métier.
 
 ---
+# 🧪 Tests – Module Panier via Postman
 
+## 📌 Objectif
 
+Vérifier le bon fonctionnement des endpoints liés à la gestion du panier pour un utilisateur connecté (`CLIENT`), notamment :
 
+- ✅ Ajout de produits au panier  
+- ✅ Mise à jour de la quantité d’un produit  
+- ✅ Consultation du panier  
+- ✅ Suppression d’un article du panier
 
+> ⚠️ Tous les appels nécessitent un **JWT valide** dans l'en-tête `Authorization`.
 
+---
+
+## ✅ 1️⃣ Ajouter un produit au panier
+
+**URL :**
+
+```http
+POST http://localhost:8080/api/cart/add
+```
+**Headers :**
+
+```pgsql
+Authorization: Bearer <JWT_TOKEN>
+Content-Type: application/json
+```
+**Body (JSON) :**
+
+```json
+{
+  "productId": 1,
+  "quantity": 2
+}
+```
+## ✅ 2️⃣ Ajouter un deuxième produit au panier
+**URL :**
+
+```http
+POST http://localhost:8080/api/cart/add
+```
+**Headers :**
+
+```pgsql
+Authorization: Bearer <JWT_TOKEN>
+Content-Type: application/json
+```
+
+**Body (JSON) :**
+
+```json
+{
+  "productId": 2,
+  "quantity": 1
+}
+```
+
+## ✅ 3️⃣ Récupérer le contenu du panier
+**URL :**
+
+```http
+GET http://localhost:8080/api/cart
+```
+**Headers :**
+
+```makefile
+Authorization: Bearer <JWT_TOKEN>
+```
+
+## ✅ 4️⃣ Mettre à jour la quantité d’un article
+**URL :**
+
+```http
+PUT http://localhost:8080/api/cart/1/quantity/4
+```
+Remplace 1 par l’ID réel du cartItem à modifier.
+
+**Headers :**
+
+```makefile
+Authorization: Bearer <JWT_TOKEN>
+```
+
+## ✅ 5️⃣ Supprimer un article du panier
+**URL :**
+
+```http
+DELETE http://localhost:8080/api/cart/1
+```
+Remplace 1 par l’ID réel du cartItem à supprimer.
+
+**Headers :**
+
+```makefile
+Authorization: Bearer <JWT_TOKEN>
+```
