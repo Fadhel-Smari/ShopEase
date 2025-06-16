@@ -1069,3 +1069,27 @@ Remplace 1 par l’ID réel du cartItem à supprimer.
 ```makefile
 Authorization: Bearer <JWT_TOKEN>
 ```
+
+# 📦 Module Commandes
+
+Le module Commandes gère la création, le suivi et l’historique des commandes passées par les utilisateurs.
+Il permet de stocker les informations relatives à chaque commande, notamment l’utilisateur, les produits commandés, les quantités, les statuts et les dates.
+
+## ✅ Étape 1 : Enumération et Entités `Order` et `OrderItem`
+
+## 🎯 Objectif
+
+- Définir les statuts possibles d'une commande avec l'`enum OrderStatus`.
+- Créer les entités JPA `Order` et `OrderItem` avec les relations nécessaires :
+  - Un utilisateur peut avoir plusieurs commandes (`Order`).
+  - Une commande contient plusieurs items (`OrderItem`).
+  - Chaque `OrderItem` est lié à un produit spécifique.
+
+## ⚙️ Détails techniques
+
+- `OrderStatus` : enum avec les valeurs `PENDING`, `CONFIRMED`, `SHIPPED`, `DELIVERED`.
+- `Order` :
+  - Identifiant, utilisateur, date de commande, statut, montant total.
+  - Liste des `OrderItem`.
+- `OrderItem` :
+  - Identifiant, référence vers la commande, produit, quantité, prix unitaire.
