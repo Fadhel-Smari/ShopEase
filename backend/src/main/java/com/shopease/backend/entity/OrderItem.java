@@ -11,6 +11,8 @@ package com.shopease.backend.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "order_items")
 public class OrderItem {
@@ -67,11 +69,11 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

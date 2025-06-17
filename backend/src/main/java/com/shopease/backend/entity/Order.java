@@ -11,6 +11,8 @@ package com.shopease.backend.entity;
 
 import com.shopease.backend.enums.OrderStatus;
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -79,7 +81,7 @@ public class Order {
         return totalAmount;
     }
 
-    public void setTotalAmount(Double totalAmount) {
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 

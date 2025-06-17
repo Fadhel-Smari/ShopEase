@@ -5,9 +5,13 @@ package com.shopease.backend.enums;
  *
  * @author Fadhel Smari
  */
+
 public enum OrderStatus {
-    PENDING,    // En attente de confirmation
-    CONFIRMED,  // Commande confirmée
-    SHIPPED,    // Commande expédiée
-    DELIVERED   // Commande livrée
+    DRAFT,      // Commande non encore confirmée
+    PENDING,    // Confirmée mais pas encore payée
+    PAID,       // Payée mais pas encore traitée
+    SHIPPED,    // Expédiée
+    DELIVERED,  // Livrée
+    CANCELLED   // Annulée par client ou système
 }
+

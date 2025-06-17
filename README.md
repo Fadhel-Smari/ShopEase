@@ -1127,4 +1127,54 @@ Créer les interfaces JPA pour accéder à la base de données et gérer les ent
 - Hérite de `JpaRepository<OrderItem, Long>`.
 - Gère les accès aux items de commande.
 
+## ✅ Étape 4 : Service & Implémentation du module Commandes
 
+## 🎯 Objectif
+
+Développer la couche métier du module commandes pour :
+- Créer une commande à partir du panier de l'utilisateur
+- Récupérer l’historique de commandes
+- Consulter une commande spécifique
+- Supprimer une commande si elle est encore modifiable (statut DRAFT ou PENDING)
+- Mettre à jour le statut de la commande (ex. : passer de DRAFT à PENDING)
+
+---
+
+## 📌 Classes créées
+
+### ✅ `OrderService.java` (interface)
+Définit les méthodes principales :
+- `OrderResponse createOrder(Long userId)`
+- `List<OrderResponse> getOrdersByUser(Long userId)`
+- `OrderResponse getOrderById(Long orderId, Long userId)`
+- `void deleteOrder(Long orderId, Long userId)`
+- `OrderResponse updateOrderStatus(Long orderId, OrderStatus newStatus, Long userId)`
+
+### ✅ `OrderServiceImpl.java` (implémentation)
+Implémente la logique métier :
+
+#### 📦 Création de commande
+- Génère une commande à partir des articles du panier.
+- Calcule le total.
+- Sauvegarde la commande et les articles associés.
+- Vide le panier de l'utilisateur après commande.
+
+#### 🔍 Lecture
+- Récupération des commandes d’un utilisateur.
+- Détail d’une commande spécifique si elle lui appartient.
+
+#### ❌ Suppression
+- Autorisée uniquement si le statut de la commande est `DRAFT` ou `PENDING`.
+
+#### 🔁 Mise à jour du statut
+- Possible uniquement tant que la commande n’est pas confirmée ou payée.
+
+---
+
+## ⚠️ Gestion des exceptions
+
+- `ResourceNotFoundException` : utilisateur, commande ou panier inexistant
+- `ForbiddenActionException` : tentative d’accès à une commande d’un autre utilisateur
+- `BadRequestException` : tentative de suppression ou modification d’une commande confirmée
+
+---

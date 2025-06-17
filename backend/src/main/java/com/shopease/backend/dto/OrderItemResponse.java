@@ -1,5 +1,7 @@
 package com.shopease.backend.dto;
 
+import java.math.BigDecimal;
+
 /**
  * DTO pour représenter un item d’une commande dans la réponse.
  *
@@ -10,7 +12,7 @@ public class OrderItemResponse {
     private Long productId;
     private String productName;
     private Integer quantity;
-    private Double price;
+    private BigDecimal price;
 
 
     public Long getProductId() {
@@ -37,11 +39,11 @@ public class OrderItemResponse {
         this.quantity = quantity;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }
