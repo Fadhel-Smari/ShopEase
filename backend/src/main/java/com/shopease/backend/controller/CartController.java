@@ -21,6 +21,8 @@ import com.shopease.backend.dto.CartResponse;
 import com.shopease.backend.entity.User;
 import com.shopease.backend.repository.UserRepository;
 import com.shopease.backend.service.CartService;
+import com.shopease.backend.util.CurrentUserUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,16 +30,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/cart")
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class CartController {
 
     private final CartService cartService;
-    private final UserRepository userRepository;
+    private final CurrentUserUtils currentUserUtils;
 
-    public CartController(CartService cartService, UserRepository userRepository) {
-        this.cartService = cartService;
-        this.userRepository = userRepository;
-    }
 
     /**
      * Retourne le panier de l'utilisateur connecté.
@@ -48,7 +47,7 @@ public class CartController {
     @GetMapping
     @PreAuthorize("hasRole('CLIENT')")
     public CartResponse getCart(Authentication authentication) {
-        Long userId = getUserIdFromAuth(authentication);
+        Long userId = currentUserUtils.getUserId(authentication);
         return cartService.getCartByUserId(userId);
     }
 
@@ -62,7 +61,7 @@ public class CartController {
     @PostMapping("/add")
     @PreAuthorize("hasRole('CLIENT')")
     public CartResponse addItem(@RequestBody CartItemRequest request, Authentication authentication) {
-        Long userId = getUserIdFromAuth(authentication);
+        Long userId = currentUserUtils.getUserId(authentication);
         return cartService.addItemToCart(userId, request);
     }
 
@@ -80,7 +79,7 @@ public class CartController {
             @PathVariable Long cartItemId,
             @PathVariable int quantity,
             Authentication authentication) {
-        Long userId = getUserIdFromAuth(authentication);
+        Long userId = currentUserUtils.getUserId(authentication);
         return cartService.updateItemQuantity(userId, cartItemId, quantity);
     }
 
@@ -94,22 +93,8 @@ public class CartController {
     @DeleteMapping("/{cartItemId}")
     @PreAuthorize("hasRole('CLIENT')")
     public CartResponse removeItem(@PathVariable Long cartItemId, Authentication authentication) {
-        Long userId = getUserIdFromAuth(authentication);
+        Long userId = currentUserUtils.getUserId(authentication);
         return cartService.removeItemFromCart(userId, cartItemId);
     }
 
-    /**
-     * Extrait l'ID utilisateur à partir de l'objet Authentication.
-     *
-     * @param authentication objet contenant les données d’authentification
-     * @return l'identifiant de l'utilisateur sous forme Long
-     */
-    private Long getUserIdFromAuth(Authentication authentication) {
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Utilisateur non trouvé : " + username);
-        }
-        return user.getId();
-    }
 }

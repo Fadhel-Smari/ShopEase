@@ -1178,3 +1178,33 @@ Implémente la logique métier :
 - `BadRequestException` : tentative de suppression ou modification d’une commande confirmée
 
 ---
+
+## ✅ Étape 5 : Création du contrôleur OrderController
+
+## 🎯 Objectif
+
+Exposer les endpoints REST pour permettre aux utilisateurs **authentifiés (role CLIENT)** de :
+- Créer une commande à partir de son panier
+- Consulter ses commandes (liste ou par ID)
+- Supprimer une commande si elle est au statut DRAFT ou PENDING
+- Modifier le statut d'une commande avant traitement
+
+---
+
+## 📌 Endpoints ajoutés :
+
+| Méthode | Endpoint | Description |
+|--------|----------|-------------|
+| POST   | `/api/orders` | Créer une nouvelle commande à partir du panier |
+| GET    | `/api/orders` | Obtenir toutes les commandes de l'utilisateur |
+| GET    | `/api/orders/{orderId}` | Détails d'une commande spécifique |
+| DELETE | `/api/orders/{orderId}` | Supprimer une commande (si modifiable) |
+| PUT    | `/api/orders/{orderId}/status?status=...` | Mettre à jour le statut |
+
+---
+
+## 🔐 Sécurité :
+- Tous les endpoints sont restreints au rôle `CLIENT` via `@PreAuthorize("hasRole('CLIENT')")`.
+
+
+---
