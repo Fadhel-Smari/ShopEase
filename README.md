@@ -1342,6 +1342,36 @@ Met à jour le statut d’une commande (DRAFT → PENDING ou PAID), tant qu’el
 Toutes les routes du module commandes sont restreintes au rôle CLIENT grâce à l’annotation @PreAuthorize("hasRole('CLIENT')").
 
 
+# 💳 Module Paiement
+
+## 🎯 Objectif
+
+Ce module permet d’intégrer un système de paiement sécurisé avec **Stripe Checkout**.
+Un utilisateur connecté peut initier un paiement pour une commande existante.
+Une URL est générée via l’API Stripe, vers laquelle il est redirigé pour compléter le paiement.
+
+---
+
+### 1️⃣ Intégration Stripe Checkout
+
+## ✅ Étapes de développement
+
+## ✅ Étape 1 : Ajout de la dépendance Stripe dans `pom.xml` et configuration des clés API dans application.properties
+
+**pom.xml**
+```xml
+<dependency>
+  <groupId>com.stripe</groupId>
+  <artifactId>stripe-java</artifactId>
+  <version>24.10.0</version>
+</dependency>
+```
+**application.properties**
+```properties
+stripe.api.key=sk_test_XXXXXXXXXXXXXXXXXXXXXXXX
+frontend.url=http://localhost:3000
+```
+
 
 
 
