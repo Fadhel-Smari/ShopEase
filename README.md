@@ -1372,6 +1372,8 @@ stripe.api.key=sk_test_XXXXXXXXXXXXXXXXXXXXXXXX
 frontend.url=http://localhost:3000
 ```
 
+## ✅ Étape 2 : DTO – PaymentRequest
+Création du DTO pour initier un paiement à partir de l'ID de commande.
 
 
 
