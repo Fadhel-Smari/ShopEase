@@ -1375,7 +1375,14 @@ frontend.url=http://localhost:3000
 ## ✅ Étape 2 : DTO – PaymentRequest
 Création du DTO pour initier un paiement à partir de l'ID de commande.
 
+## ✅ Étape 3 : Service & Implémentation
+Définition du contrat métier pour créer une session Stripe Checkout.
 
+Implémentation de la logique de création d’une session Stripe Checkout :
+- Récupération de la commande
+- Vérification du statut et du propriétaire
+- Création de la session via Stripe Java SDK
+- Retour de l’URL Stripe
 
 
 
