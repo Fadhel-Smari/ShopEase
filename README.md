@@ -1384,6 +1384,19 @@ Implémentation de la logique de création d’une session Stripe Checkout :
 - Création de la session via Stripe Java SDK
 - Retour de l’URL Stripe
 
+### ✅ Étape 4 : Contrôleur `PaymentController`
+
+Création d’un contrôleur REST `PaymentController` pour exposer un endpoint permettant de déclencher le paiement d’une commande via Stripe Checkout.
+
+### 📌 Endpoint créé : `/api/payments/create-checkout-session`
+
+- **Méthode HTTP :** `POST`
+- **Accès restreint à :** `CLIENT`
+- **Payload attendu :** objet `PaymentRequest` contenant l’ID de la commande à payer
+- **Traitement effectué :**
+  - Récupération de l'ID de l'utilisateur authentifié via `Authentication`
+  - Appel au service `paymentService.createCheckoutSession(orderId, userId)`
+  - Retourne une URL Stripe valide à laquelle le frontend peut rediriger l'utilisateur pour procéder au paiement
 
 
 
