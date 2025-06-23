@@ -21,7 +21,6 @@ import com.shopease.backend.exception.ForbiddenActionException;
 import com.shopease.backend.exception.ResourceNotFoundException;
 import com.shopease.backend.repository.*;
 import com.shopease.backend.service.OrderService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,15 +30,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private OrderRepository orderRepository;
-    private OrderItemRepository orderItemRepository;
-    private CartItemRepository cartItemRepository;
-    private UserRepository userRepository;
-    private ProductRepository productRepository;
+    private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
+    private final CartItemRepository cartItemRepository;
+    private final UserRepository userRepository;
 
     /**
      * Crée une commande à partir du panier d’un utilisateur donné.

@@ -20,13 +20,14 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
 
+    @Column(name = "image_url")
     private String imageUrl;
 
     @Column(nullable = false)
     private int stock;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     public Long getId() {

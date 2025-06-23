@@ -1206,5 +1206,148 @@ Exposer les endpoints REST pour permettre aux utilisateurs **authentifiés (role
 ## 🔐 Sécurité :
 - Tous les endpoints sont restreints au rôle `CLIENT` via `@PreAuthorize("hasRole('CLIENT')")`.
 
+---
+
+
+# 🧪 Tests – Module Commandes via Postman
+
+## 🛠️ Préparation : Base de données de test (`data.sql`)
+
+Pour faciliter les tests, une base de données de démonstration a été initialisée automatiquement grâce à un fichier `data.sql`.  
+Ce fichier insère des données représentatives dans les tables suivantes :
+
+- 👤 **4 utilisateurs** (1 ADMIN, 3 CLIENTS)
+- 🗂️ **6 catégories** (Électronique, Vêtements, etc.)
+- 🛍️ **24 produits** répartis dans les catégories
+- 🛒 **Paniers** contenant des articles pour chaque client
+- 📦 **Commandes** avec plusieurs articles pour chaque client
+
+Ces données permettent de simuler des cas réels de création, consultation, mise à jour ou suppression de commandes.
 
 ---
+
+## 📌 Objectif des tests
+
+Tester les endpoints REST liés aux commandes (`/api/orders`) :
+
+- ✅ Créer une commande à partir du panier
+- 📥 Récupérer toutes les commandes d’un client
+- 🔍 Consulter une commande spécifique par son ID
+- ❌ Supprimer une commande (si encore au statut `DRAFT` ou `PENDING`)
+- 🔄 Mettre à jour le statut d’une commande (ex. : de `DRAFT` à `PENDING`)
+
+---
+
+✅ Exécution recommandée
+- Connectez-vous avec l’un des clients (par exemple ali123, sara456, mehdi789)
+
+- Récupérez leur token via /api/auth/login
+
+- Testez les commandes selon leurs paniers et commandes pré-existants
+
+## 1️⃣ Créer une commande
+
+**URL :**
+```http
+POST http://localhost:8080/api/orders
+```
+**Headers :**
+
+```pgsql
+Authorization: Bearer <token_du_client>
+Content-Type: application/json
+```
+**Body :**
+
+```json
+// Aucun corps requis
+```
+
+**Description :**
+Crée une commande à partir des articles présents dans le panier de l’utilisateur connecté.
+
+2️⃣ Récupérer les commandes du client connecté
+**URL :**
+
+```http
+GET http://localhost:8080/api/orders
+```
+**Headers :**
+
+```makefile
+Authorization: Bearer <token_du_client>
+```
+**Description :**
+Retourne la liste des commandes effectuées par l’utilisateur.
+
+3️⃣ Obtenir une commande par ID
+**URL :**
+
+```http
+GET http://localhost:8080/api/orders/{orderId}
+```
+**Exemple :**
+
+```http
+GET http://localhost:8080/api/orders/1
+```
+**Headers :**
+
+```makefile
+Authorization: Bearer <token_du_client>
+```
+**Description :**
+Retourne les détails de la commande spécifiée, si elle appartient à l’utilisateur.
+
+4️⃣ Supprimer une commande
+**URL :**
+
+```http
+DELETE http://localhost:8080/api/orders/{orderId}
+```
+**Exemple :**
+
+```http
+DELETE http://localhost:8080/api/orders/3
+```
+**Headers :****
+
+```makefile
+Authorization: Bearer <token_du_client>
+```
+**Description :**
+Supprime la commande si son statut est DRAFT ou PENDING.
+Sinon, une erreur sera retournée.
+
+5️⃣ Mettre à jour le statut d’une commande
+**URL :**
+
+```http
+PUT http://localhost:8080/api/orders/{orderId}/status?status=PENDING
+```
+**Exemple :**
+
+```http
+PUT http://localhost:8080/api/orders/2/status?status=PENDING
+```
+Headers :
+
+```makefile
+Authorization: Bearer <token_du_client>
+```
+**Description :**
+Met à jour le statut d’une commande (DRAFT → PENDING ou PAID), tant qu’elle n’est pas déjà livrée ou annulée.
+
+🔐 Rappel sécurité
+Toutes les routes du module commandes sont restreintes au rôle CLIENT grâce à l’annotation @PreAuthorize("hasRole('CLIENT')").
+
+
+
+
+
+
+
+
+
+
+

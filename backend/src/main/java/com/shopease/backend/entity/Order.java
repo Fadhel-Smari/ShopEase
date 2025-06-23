@@ -34,7 +34,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private Double totalAmount;
+    private BigDecimal totalAmount;
 
     /**
      * Liste des articles associés à cette commande.
@@ -77,7 +77,7 @@ public class Order {
         this.status = status;
     }
 
-    public Double getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 

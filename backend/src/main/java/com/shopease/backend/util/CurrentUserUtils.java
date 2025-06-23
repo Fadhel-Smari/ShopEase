@@ -21,7 +21,7 @@ import org.springframework.security.core.Authentication;
 @RequiredArgsConstructor
 public class CurrentUserUtils {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     /**
      * Récupère l'identifiant de l'utilisateur connecté à partir du contexte d'authentification.

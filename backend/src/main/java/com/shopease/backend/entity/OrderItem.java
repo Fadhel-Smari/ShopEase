@@ -33,9 +33,7 @@ public class OrderItem {
 
     private Integer quantity;
 
-    private Double price; // prix unitaire au moment de la commande
-
-    // Getters et setters
+    private BigDecimal price;
 
     public Long getId() {
         return id;

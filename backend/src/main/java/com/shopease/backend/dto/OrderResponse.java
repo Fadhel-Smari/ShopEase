@@ -7,6 +7,8 @@ package com.shopease.backend.dto;
  */
 
 import com.shopease.backend.enums.OrderStatus;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class OrderResponse {
     private Long userId;
     private LocalDateTime orderDate;
     private OrderStatus status;
-    private Double totalAmount;
+    private BigDecimal totalAmount;
     private List<OrderItemResponse> items;
 
 
@@ -52,11 +54,11 @@ public class OrderResponse {
         this.status = status;
     }
 
-    public Double getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Double totalAmount) {
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 
