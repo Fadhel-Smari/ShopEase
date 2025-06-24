@@ -1587,3 +1587,31 @@ La méthode handleCheckoutSession(Session session) effectue les étapes suivante
 ⚠️ Remarque :
 - Le champ client_reference_id est utilisé pour associer la session Stripe à une commande spécifique.
 - Stripe envoie l’objet Session via le webhook /api/payments/webhook, qui est traité dans le contrôleur.
+
+# 💳 Étape 3 : Contrôleur `PaymentController` – Endpoint Stripe Webhook
+
+## 🎯 Objectif
+
+Mettre en place un **endpoint sécurisé** qui reçoit les événements Stripe **lorsqu’un paiement est terminé avec succès**.  
+Ce webhook permet de mettre à jour le statut d’une commande dans la base de données **sans interaction utilisateur**.
+
+## 🛠️ Endpoint `/api/payments/webhook`
+
+Un nouveau point d'entrée HTTP POST a été ajouté dans `PaymentController` :
+
+```java
+@PostMapping("/webhook")
+public ResponseEntity<String> handleStripeWebhook(HttpServletRequest request)
+```
+## 📌 Fonctionnement de ce webhook :
+- Lecture manuelle du corps brut de la requête Stripe (payload).
+- Récupération de l’en-tête Stripe-Signature pour vérifier que la requête provient bien de Stripe.
+- Vérification cryptographique via Webhook.constructEvent(...) à l’aide du secret STRIPE_WEBHOOK_SECRET (défini dans .env).
+- Traitement de l’événement uniquement si le type est checkout.session.completed.
+- Désérialisation de la session Stripe (Session) et appel de la méthode métier :
+
+```java
+paymentService.handleCheckoutSession(session);
+```
+# => Réponse HTTP 200 OK si tout s’est bien passé, sinon 400 Bad Request en cas d’erreur.
+
