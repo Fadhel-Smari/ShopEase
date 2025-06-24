@@ -1399,7 +1399,50 @@ Création d’un contrôleur REST `PaymentController` pour exposer un endpoint p
   - Retourne une URL Stripe valide à laquelle le frontend peut rediriger l'utilisateur pour procéder au paiement
 
 
+## 🧪 Test Postman : Paiement d'une commande via Stripe
 
+**Requête Postman**
+**Méthode : POST**
+**URL :**
 
+```http
+http://localhost:8080/api/payments/create-checkout-session
+```
+**Headers :**
 
+```http
+Authorization: Bearer <JWT_TOKEN>
+Content-Type: application/json
+```
+**Body :**
 
+```json
+{
+  "orderId": 5
+}
+```
+✅ Réponse attendue (succès)
+```json
+{
+  "checkoutUrl": "https://checkout.stripe.com/pay/cs_test_..."
+}
+```
+On doit cliquer su le lien pour ouvrir l’interface de paiement Stripe.
+
+Cela permet à l’utilisateur de payer sa commande en toute sécurité.
+
+❌ Réponse possible (échec)
+Si l’orderId ne correspond pas à une commande existante, ou si elle n’appartient pas à l’utilisateur connecté :
+
+```json
+{
+  "message": "Commande introuvable"
+}
+```
+Ou bien :
+
+```json
+{
+  "message": "Accès interdit"
+}
+```
