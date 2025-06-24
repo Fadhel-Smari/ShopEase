@@ -1492,6 +1492,7 @@ Pour résoudre cela, Stripe envoie des **webhooks** (notifications HTTP POST) à
 
 ---
 
+# 💳 Étape 1 : Configuration Stripe CLI
 ## 🛠️ Étapes pour installer Stripe CLI sous Linux
 
 ### ✅ 1. Télécharger l’archive depuis GitHub
@@ -1551,3 +1552,38 @@ Ready! Your webhook signing secret is XXXXXXXXXXXXXXXXXXXXXXXX
 ```ini
 STRIPE_WEBHOOK_SECRET=XXXXXXXXXXXXXXXXXXXXXXXX
 ```
+
+# 💳 Étape 2 : Service de gestion du webhook Stripe
+
+## 🎯 Objectif
+
+Permettre à l’application ShopEase de réagir à l’événement envoyé par Stripe lorsque le paiement est réussi (`checkout.session.completed`).  
+Cela permet de **mettre à jour automatiquement le statut de la commande** concernée en `PAID` sans intervention manuelle.
+
+---
+
+## 🧩 Interface `PaymentService`
+
+Une nouvelle fonction a été introduite dans `PaymentService` :
+
+```java
+    void handleCheckoutSession(Session session);
+```
+### 📌 Rôle :
+Fournit un contrat pour toute logique métier liée aux événements Stripe (notamment checkout.session.completed).
+
+Peut être étendue à d'autres services (PayPal, etc.) à l'avenir.
+
+## 🛠️ Implémentation – PaymentServiceImpl
+La méthode handleCheckoutSession(Session session) effectue les étapes suivantes :
+
+✅ Récupération de l'orderId à partir du champ client_reference_id de la session Stripe.
+
+- Recherche de la commande dans la base de données.
+- Vérification du statut de la commande.
+- Mise à jour de son statut vers PAID si elle ne l’est pas déjà.
+- Enregistre également la date de paiement (orderDate).
+
+⚠️ Remarque :
+- Le champ client_reference_id est utilisé pour associer la session Stripe à une commande spécifique.
+- Stripe envoie l’objet Session via le webhook /api/payments/webhook, qui est traité dans le contrôleur.

@@ -108,4 +108,34 @@ public class PaymentServiceImpl implements PaymentService {
             throw new RuntimeException("Erreur lors de la création de la session Stripe", e);
         }
     }
+
+    /**
+     * Met à jour le statut de la commande après confirmation de paiement Stripe.
+     *
+     * @param session la session Stripe reçue via webhook
+     */
+    @Override
+    public void handleCheckoutSession(Session session) {
+        // Récupère l’ID de la commande depuis la session Stripe
+        String clientReferenceId = session.getClientReferenceId();
+        if (clientReferenceId == null) return;
+
+        try {
+            // Convertit l’ID et cherche la commande correspondante
+            Long orderId = Long.parseLong(clientReferenceId);
+            Order order = orderRepository.findById(orderId).orElse(null);
+
+            // Si la commande existe et n’est pas déjà payée, on la met à jour
+            if (order != null && order.getStatus() != OrderStatus.PAID) {
+                order.setStatus(OrderStatus.PAID);
+                order.setOrderDate(java.time.LocalDateTime.now());
+                orderRepository.save(order);
+            }
+
+        } catch (NumberFormatException e) {
+            // Gère le cas où l’ID reçu n’est pas un nombre
+            System.err.println("ID commande invalide : " + clientReferenceId);
+        }
+    }
+
 }
