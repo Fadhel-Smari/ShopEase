@@ -1638,3 +1638,50 @@ Oui, car :
 
 ✅ Toute requête non authentifiée qui ne provient pas de Stripe sera automatiquement rejetée
 
+# 🧪 Tests – Module Paiement via Stripe CLI
+
+Pour valider la réception des événements Stripe webhook dans notre backend, il est essentiel de tester avec un outil fiable qui simule correctement les signatures cryptographiques attendues. Le test Postman ne fonctionne pas car il est impossible de reproduire la signature Stripe (`Stripe-Signature`) manuellement.
+
+## Test avec Stripe CLI (recommandé)
+
+### 📦 Prérequis
+
+- Stripe CLI installé et configuré (voir README précédent)
+- Webhook configuré dans Stripe Dashboard OU utilisation de la commande `stripe listen`
+
+### 🔧 Étapes
+
+1. **Connexion à Stripe CLI (si ce n’est pas déjà fait) :**
+
+```bash
+stripe login
+```
+2. **Lancer l’écoute du webhook en local :**
+
+```bash
+stripe listen --forward-to localhost:8080/api/payments/webhook
+```
+Cette commande connecte Stripe au serveur local et affiche le secret de signature utilisé.
+
+3. **Simuler un paiement complété :**
+
+```bash
+stripe trigger checkout.session.completed
+```
+✅ Résultat attendu
+Stripe envoie un événement checkout.session.completed vers le backend.
+
+Le backend affiche en console un message du type :
+✅ Paiement reçu pour commande ID: ...
+
+La commande correspondante dans la base passe au statut PAID.
+
+⚠️ Pourquoi ne pas utiliser Postman ?
+- Les webhooks Stripe doivent être signés avec une clé secrète (Stripe-Signature).
+- Cette signature est calculée dynamiquement et ne peut pas être reproduite manuellement dans Postman.
+- Toute requête non signée correctement sera rejetée avec une erreur 400 Signature Stripe invalide.
+
+# =>Pour cette raison, le test Postman n’est pas fiable pour tester les webhooks Stripe.
+
+
+
