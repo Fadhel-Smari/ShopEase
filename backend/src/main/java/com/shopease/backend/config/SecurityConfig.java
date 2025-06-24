@@ -37,6 +37,9 @@ public class SecurityConfig {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
+    public static final String AUTH = "/api/auth/**";
+    public static final String PAYMENTS_WEBHOOK = "/api/payments/webhook";
+
     /**
      * Configure la chaîne de filtres de sécurité.
      *
@@ -55,7 +58,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable()) // Désactive la protection CSRF (utile pour les API REST)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Autorise l'accès libre aux endpoints d'auth
+                        .requestMatchers(AUTH, PAYMENTS_WEBHOOK).permitAll() // Autorise l'accès libre aux endpoints d'auth
                         .anyRequest().authenticated() // Toutes les autres requêtes doivent être authentifiées
                 )
                 .authenticationProvider(authenticationProvider()) // Utilise un fournisseur d’authentification personnalisé

@@ -1615,3 +1615,26 @@ paymentService.handleCheckoutSession(session);
 ```
 # => Réponse HTTP 200 OK si tout s’est bien passé, sinon 400 Bad Request en cas d’erreur.
 
+# 🔐 Sécurité – Ouverture du webhook Stripe dans `SecurityConfig`
+
+## 🎯 Objectif
+
+Configurer Spring Security pour **autoriser les requêtes Stripe** vers le webhook `/api/payments/webhook` **sans authentification**.  
+Stripe n'envoie pas de jeton JWT — si la route n’est pas ouverte, les événements de paiement ne seront **jamais reçus** par ton backend.
+
+### ❓ Pourquoi cette modification est-elle cruciale ?
+✅ Stripe ne peut pas s’authentifier (pas de JWT dans ses requêtes webhook).
+
+❌ Sans cette règle, Spring Security bloquera les requêtes Stripe avec une erreur 401 Unauthorized.
+
+✅ En ajoutant "/api/payments/webhook" dans les permitAll(), on permet à Stripe d’envoyer des événements librement, mais uniquement sur cette route spécifique.
+
+### 🛡️ Est-ce sécurisé ?
+Oui, car :
+
+✅ L’accès libre est limité uniquement à /api/payments/webhook.
+
+✅ Le contenu de la requête est vérifié cryptographiquement avec Stripe-Signature et le secret STRIPE_WEBHOOK_SECRET.
+
+✅ Toute requête non authentifiée qui ne provient pas de Stripe sera automatiquement rejetée
+
