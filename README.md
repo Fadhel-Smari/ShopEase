@@ -1478,3 +1478,76 @@ Ces lignes remplacent l’ancienne annotation @Value(...), pour éviter toute fu
 ✅ Permet de changer de configuration facilement entre environnement local, staging et production.
 
 ✅ Compatible avec Stripe, Spring Boot, et les services cloud comme Heroku, Vercel, etc.
+
+
+### 3️⃣ Webhook Stripe – Paiement asynchrone
+
+## 🎯 Introduction
+
+Lorsqu’un utilisateur paie via Stripe, le paiement est effectué **de manière asynchrone**. Cela signifie que le backend n’est pas immédiatement notifié du succès du paiement.  
+Pour résoudre cela, Stripe envoie des **webhooks** (notifications HTTP POST) à un endpoint défini, contenant les détails de l’événement (paiement réussi, échec, remboursement…).
+
+👉 Dans ShopEase, nous utilisons ce mécanisme pour :
+- **Mettre à jour automatiquement le statut d’une commande** lorsque Stripe confirme que le paiement est effectué (`checkout.session.completed`).
+
+---
+
+## 🛠️ Étapes pour installer Stripe CLI sous Linux
+
+### ✅ 1. Télécharger l’archive depuis GitHub
+
+Va sur la page des releases Stripe CLI GitHub :  
+👉 https://github.com/stripe/stripe-cli/releases
+
+Repère la dernière version stable (ex. `stripe_1.27.0_linux_x86_64.tar.gz`).
+
+Ensuite, télécharge le fichier via `wget` :
+
+```bash
+wget https://github.com/stripe/stripe-cli/releases/download/v1.27.0/stripe_1.27.0_linux_x86_64.tar.gz
+```
+💡 Remplace le lien par la dernière version si nécessaire.
+
+### ✅ 2. Décompresser l’archive
+```bash
+tar -xvf stripe_1.27.0_linux_x86_64.tar.gz
+```
+Cela va créer un dossier avec un exécutable appelé stripe.
+
+### ✅ 3. Déplacer le binaire Stripe dans un dossier du PATH
+```bash
+sudo mv stripe /usr/local/bin/
+```
+### ✅ 4. Vérifier que Stripe CLI est bien installé
+```bash
+stripe version
+```
+On devrait voir quelque chose comme :
+
+```bash
+stripe version 1.27.0
+```
+### 🔐 Configuration du webhook Stripe
+✅ Étapes pour obtenir STRIPE_WEBHOOK_SECRET
+1. Connecter Stripe CLI à ton compte Stripe
+```bash
+stripe login
+```
+Cela ouvre une page web pour autoriser la connexion.
+
+2. Lancer l’écoute du webhook en local
+Dans le terminal du projet Spring Boot :
+
+```bash
+stripe listen --forward-to localhost:8080/api/payments/webhook
+```
+✅ Une fois cette commande exécutée, on verra une sortie comme :
+
+```bash
+Ready! Your webhook signing secret is XXXXXXXXXXXXXXXXXXXXXXXX
+```
+👉 Il faut Copier cette clé whsec_... et colle-la dans le fichier .env :
+
+```ini
+STRIPE_WEBHOOK_SECRET=XXXXXXXXXXXXXXXXXXXXXXXX
+```
