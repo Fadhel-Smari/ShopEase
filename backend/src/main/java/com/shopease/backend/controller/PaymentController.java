@@ -3,7 +3,6 @@ package com.shopease.backend.controller;
 import com.shopease.backend.dto.PaymentRequest;
 import com.shopease.backend.service.PaymentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;

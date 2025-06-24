@@ -1368,7 +1368,7 @@ Une URL est générée via l’API Stripe, vers laquelle il est redirigé pour c
 ```
 **application.properties**
 ```properties
-stripe.api.key=sk_test_XXXXXXXXXXXXXXXXXXXXXXXX
+stripe.api.key=XXXXXXXXXXXXXXXXXXXXXXXX
 frontend.url=http://localhost:3000
 ```
 
@@ -1446,3 +1446,35 @@ Ou bien :
   "message": "Accès interdit"
 }
 ```
+
+### 2️⃣ Gestion des variables d’environnement : sécurisation des clés sensibles (Stripe, URL frontend, etc.) via .env + EnvConfig
+
+🎯 Objectif
+Isoler les informations sensibles et liées à l’environnement (comme les clés d’API Stripe ou l’URL du frontend) dans un fichier .env, afin d’éviter toute fuite accidentelle lors des commits Git.
+
+✅ Étapes réalisées
+### ✅ Étape 1 : Création du fichier .env
+Contenu du fichier .env à la racine du projet :
+
+```ini
+STRIPE_SECRET_KEY=XXXXXXXXXXXXXXXXXXXXXXXX
+FRONTEND_URL=http://localhost:3000
+```
+✅ Ce fichier ne doit jamais être versionné (ajouté dans .gitignore).
+
+### ✅ Étape 2 : Classe EnvConfig.java
+Une classe utilitaire a été créée pour lire les variables d’environnement en toute sécurité.
+
+### ✅ Étape 3 : Modification dans le service PaymentServiceImpl
+```java
+Stripe.apiKey = EnvConfig.get("STRIPE_SECRET_KEY");
+String frontendUrl = EnvConfig.get("FRONTEND_URL");
+```
+Ces lignes remplacent l’ancienne annotation @Value(...), pour éviter toute fuite via application.properties.
+
+🔒 Avantages
+✅ Meilleure sécurité (pas de clé exposée dans le code ou dans Git).
+
+✅ Permet de changer de configuration facilement entre environnement local, staging et production.
+
+✅ Compatible avec Stripe, Spring Boot, et les services cloud comme Heroku, Vercel, etc.

@@ -1,5 +1,6 @@
 package com.shopease.backend.service.impl;
 
+import com.shopease.backend.config.EnvConfig;
 import com.shopease.backend.entity.Order;
 import com.shopease.backend.enums.OrderStatus;
 import com.shopease.backend.exception.ResourceNotFoundException;
@@ -10,7 +11,6 @@ import com.stripe.Stripe;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -24,15 +24,11 @@ public class PaymentServiceImpl implements PaymentService {
     private final OrderRepository orderRepository;
     private final CurrentUserUtils currentUserUtils;
 
-    @Value("${stripe.api.key}")
-    private String stripeApiKey;
-
-    @Value("${frontend.url}")
-    private String frontendUrl;
-
     @Override
     public Map<String, String> createCheckoutSession(Long orderId, Authentication authentication) {
-        Stripe.apiKey = stripeApiKey;
+        // Chargement des clés depuis .env
+        Stripe.apiKey = EnvConfig.get("STRIPE_SECRET_KEY");
+        String frontendUrl = EnvConfig.get("FRONTEND_URL");
 
         Long userId = currentUserUtils.getUserId(authentication);
         Order order = orderRepository.findById(orderId)
