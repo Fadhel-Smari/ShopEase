@@ -1863,6 +1863,27 @@ Le DTO `AdminDashboardStats` servira à transmettre les statistiques essentielle
 - `pendingOrders` (nombre de commandes en attente)
 - `draftOrders` (nombre de commandes en statut brouillon)
 
+## ✅ Étape 2 – Service & Requête statistiques
+### 📌 Mis en place
+### Service AdminService :
+- Définit la méthode getDashboardStats() pour récupérer les indicateurs suivants :
+  - Nombre total d’utilisateurs
+  - Nombre total de commandes
+  - Nombre total de produits
+  - Montant total des ventes (commandes au statut PAID)
+  - Nombre de commandes en attente (PENDING)
+  - Nombre de commandes en brouillon (DRAFT)
+
+### Implémentation dans AdminServiceImpl :
+
+- Injection de `UserRepository`, `ProductRepository` et `OrderRepository`
+- Agrégation des données avec une requête personnalisée via Spring Data JPA
+
+### Ajout de méthodes spécifiques dans OrderRepository :
+
+- `BigDecimal sumTotalSales()` pour calculer la somme des ventes
+- `countByStatus(OrderStatus status)` pour compter les commandes par statut
+
 
 
 
