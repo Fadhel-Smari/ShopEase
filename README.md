@@ -1692,7 +1692,7 @@ La facture contient les détails de la commande : produits achetés, quantités,
 ## 🧰 Librairie utilisée
 Pour générer le PDF côté serveur, nous utilisons OpenPDF, une bibliothèque Java open-source (sous licence LGPL/MPL) dérivée de iText 2.1.7.
 
-## ✅ 📄 Étape 1 – Intégration de OpenPDF & création de PdfInvoiceGenerator
+## ✅ Étape 1 – Intégration de OpenPDF & création de PdfInvoiceGenerator
 📌 1. Ajout de la dépendance Maven
 Dans le fichier pom.xml, ajoute la dépendance suivante :
 
@@ -1740,5 +1740,49 @@ Statut : PAID
 
 💰 Montant total : 270.00 $
 ```
+
+## ✅ Étape 2 – Création de l’endpoint `/api/orders/{id}/invoice`
+
+### 📌 Description
+
+Un nouveau **endpoint GET** est ajouté au contrôleur `OrderController`.  
+Il permet de générer et de **télécharger en réponse HTTP** la facture au format PDF si :
+
+- La commande appartient à l’utilisateur connecté
+- Le statut de la commande est `PAID`
+
+---
+
+### 🧪 URL :
+
+```http
+GET /api/orders/{orderId}/invoice
+```
+
+### 🔐 Sécurité
+- Accès restreint aux utilisateurs avec le rôle CLIENT
+- Le backend vérifie que la commande appartient bien à l’utilisateur connecté
+- La facture est téléchargeable uniquement si la commande est au statut PAID
+
+### 🧾 Fonctionnement
+- Le contrôleur extrait l’orderId depuis l’URL
+- Il récupère l'utilisateur connecté (Authentication)
+- Il vérifie que la commande :
+  - Existe
+  - Appartient à cet utilisateur
+  - Est payée
+- Si tout est valide, la méthode appelle pdfInvoiceGenerator.generateInvoicePdf(order)
+- Le PDF est retourné en tant que fichier téléchargeable dans la réponse HTTP
+
+### 📦 Résultat
+Le client reçoit une réponse 200 OK contenant un fichier PDF :
+- Nom du fichier : facture_order_12.pdf (par exemple)
+- Type MIME : application/pdf
+- Contenu : tous les détails de la commande (voir Étape 1)
+
+### ⚠️ Cas d’erreur gérés
+- 404 Not Found → commande inexistante
+- 403 Forbidden → tentative d’accès à la commande d’un autre utilisateur
+- 400 Bad Request → commande non encore payée
 
 
