@@ -1684,4 +1684,61 @@ La commande correspondante dans la base passe au statut PAID.
 # =>Pour cette raison, le test Postman n’est pas fiable pour tester les webhooks Stripe.
 
 
+### 4️⃣ Génération de factures PDF – Module Paiement
+## 🎯 Objectif
+Permettre aux utilisateurs de télécharger une facture PDF après avoir effectué un paiement réussi via Stripe.
+La facture contient les détails de la commande : produits achetés, quantités, prix unitaire, montant total, informations client et date.
+
+## 🧰 Librairie utilisée
+Pour générer le PDF côté serveur, nous utilisons OpenPDF, une bibliothèque Java open-source (sous licence LGPL/MPL) dérivée de iText 2.1.7.
+
+## ✅ 📄 Étape 1 – Intégration de OpenPDF & création de PdfInvoiceGenerator
+📌 1. Ajout de la dépendance Maven
+Dans le fichier pom.xml, ajoute la dépendance suivante :
+
+```xml
+<dependency>
+    <groupId>com.github.librepdf</groupId>
+    <artifactId>openpdf</artifactId>
+    <version>1.3.30</version>
+</dependency>
+```
+📌 2. Création de la classe PdfInvoiceGenerator
+📁 Emplacement recommandé :
+src/main/java/com/shopease/util/PdfInvoiceGenerator.java
+
+Cette classe est responsable de :
+
+Générer dynamiquement un fichier PDF à partir d’un objet Order
+
+Structurer le PDF avec :
+
+✅ En-tête de facture
+
+✅ Informations sur le client
+
+✅ Tableau des produits (nom, quantité, prix unitaire, total)
+
+✅ Montant total de la commande
+
+Retourner un tableau de bytes (byte[]) que l'on pourra renvoyer dans une réponse HTTP
+
+✏️ Exemple de contenu de la facture :
+✏️ Exemple de contenu de la facture :
+```yaml
+📄 ShopEase - Facture
+
+Numéro de commande : 1024
+Client : Ali Benzarti
+Date : 2025-06-24 14:38
+Statut : PAID
+
+| Produit      | Quantité | Prix unitaire | Total   |
+|--------------|----------|----------------|---------|
+| Chaussures X |    2     |    75.00 $     | 150.00 $
+| Sac à main Y |    1     |   120.00 $     | 120.00 $
+
+💰 Montant total : 270.00 $
+```
+
 
