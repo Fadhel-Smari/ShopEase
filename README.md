@@ -1919,6 +1919,47 @@ Authorization: Bearer <token_admin_valide>
 }
 ```
 
+## 🧪 Tests – Admin Dashboard via Postman
+### 📌 Objectif
+Vérifier que le tableau de bord admin retourne bien les statistiques agrégées, et que seul un utilisateur ADMIN peut y accéder.
+
+### Requête à tester
+**URL :**
+
+```http
+GET http://localhost:8080/api/admin/dashboard
+```
+**Headers :**
+
+```http
+Authorization: Bearer <TOKEN_ADMIN_VALIDE>
+```
+Remplace <TOKEN_ADMIN_VALIDE> par un token JWT généré pour un utilisateur ayant le rôle ADMIN.
+
+### ✅ Résultat attendu (exemple)
+```json
+{
+  "totalUsers": 4,
+  "totalOrders": 12,
+  "totalProducts": 24,
+  "totalSales": 1203.95,
+  "pendingOrders": 3,
+  "draftOrders": 2
+}
+```
+### 🚫 Cas d’erreur (si accès avec un client)
+Si on teste avec un token CLIENT, on devrait obtenir une erreur 403 Forbidden :
+
+```json
+{
+  "timestamp": "...",
+  "status": 403,
+  "error": "Forbidden",
+  "message": "Access Denied",
+  "path": "/api/admin/dashboard"
+}
+```
+
 
 
 
