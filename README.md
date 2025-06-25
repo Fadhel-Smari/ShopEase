@@ -1850,7 +1850,7 @@ Les administrateurs peuvent ainsi consulter des statistiques clés, comme le nom
 - 🔐 **Sécurisation des endpoints** accessibles uniquement aux administrateurs (`ROLE_ADMIN`).
 
 ---
-
+### 1️⃣ Tableau de bord statistiques
 ## ✅ Étape 1 : Création du DTO `AdminDashboardStats`
 
 Le DTO `AdminDashboardStats` servira à transmettre les statistiques essentielles du tableau de bord admin vers le frontend. Il contiendra des champs tels que :
@@ -1960,7 +1960,24 @@ Si on teste avec un token CLIENT, on devrait obtenir une erreur 403 Forbidden :
 }
 ```
 
+### 2️⃣ Gestion des utilisateurs (ADMIN)
 
+## 🎯 Introduction
 
+Ce module permet aux administrateurs de gérer les utilisateurs de l’application ShopEase.  
+Les administrateurs peuvent consulter la liste des utilisateurs, voir les détails, supprimer des comptes, et potentiellement modifier les rôles.
 
+---
+
+## ✅ Étape 1 : Création du DTO `UserAdminResponse`
+
+Le DTO `UserAdminResponse` sert à transférer les données utilisateur côté administration.  
+Il contient les informations essentielles telles que :
+
+- `id` : identifiant unique de l’utilisateur
+- `firstname` : prénom
+- `lastname` : nom
+- `username` : identifiant de connexion
+- `email` : adresse email
+- `role` : rôle attribué (`CLIENT` ou `ADMIN`)
 
