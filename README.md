@@ -1884,8 +1884,40 @@ Le DTO `AdminDashboardStats` servira à transmettre les statistiques essentielle
 - `BigDecimal sumTotalSales()` pour calculer la somme des ventes
 - `countByStatus(OrderStatus status)` pour compter les commandes par statut
 
+## ✅ Étape 3 : Contrôleur REST `AdminController`
 
+## 🎯 Objectif
 
+Exposer une route sécurisée permettant aux administrateurs de **consulter les statistiques globales** de la plateforme via une interface frontend (React ou autre).
+
+## ✅ Fonctionnalité ajoutée
+
+- Création de la classe `AdminController` dans le package `controller`.
+- Route GET `/api/admin/dashboard`
+- Sécurisation avec `@PreAuthorize("hasRole('ADMIN')")` pour que **seuls les administrateurs** puissent consulter les données.
+
+## 🔐 Sécurité
+
+Cette route est **protégée** par Spring Security avec JWT :  
+Seuls les utilisateurs avec le rôle `ADMIN` peuvent interroger cette route.  
+
+**Exemple d’appel autorisé :**
+
+```http
+GET http://localhost:8080/api/admin/dashboard
+Authorization: Bearer <token_admin_valide>
+```
+**Retour JSON attendu (exemple)**
+```json
+{
+  "totalUsers": 10,
+  "totalOrders": 35,
+  "totalProducts": 24,
+  "totalSales": 1543.50,
+  "pendingOrders": 3,
+  "draftOrders": 2
+}
+```
 
 
 
