@@ -1823,4 +1823,50 @@ Remplace {token_jwt_valide} par le token obtenu lors de la connexion (/api/auth/
 | Accès à la commande d’un autre utilisateur | `403 Forbidden`    | `Accès interdit`                     |
 | JWT manquant ou invalide                   | `401 Unauthorized` | `Token manquant ou invalide`         |
 
+---
+
+# 🧑‍💼 Module Admin
+
+## 🎯 Introduction
+
+Le module **Admin** est une partie cruciale de l'application ShopEase, dédiée à la gestion et au suivi de la plateforme par les administrateurs. Ce module permet d’avoir une vision globale des performances du site et de gérer les utilisateurs de manière sécurisée. 
+
+Les administrateurs peuvent ainsi consulter des statistiques clés, comme le nombre total de ventes, le chiffre d’affaires, le nombre de produits disponibles, et gérer les comptes utilisateurs (clients et autres admins).
+
+## 🛠️ Fonctionnalités principales
+
+- 📊 **Tableau de bord statistiques :** 
+  - Total des ventes
+  - Nombre de commandes
+  - Nombre de produits
+  - Nombre d’utilisateurs
+  - Chiffre d’affaires global
+
+- 👥 **Gestion des utilisateurs :**
+  - Liste des utilisateurs
+  - Suppression d’un utilisateur
+  - Modification des rôles (ex. Client, Admin)
+
+- 🔐 **Sécurisation des endpoints** accessibles uniquement aux administrateurs (`ROLE_ADMIN`).
+
+---
+
+## ✅ Étape 1 : Création du DTO `AdminDashboardStats`
+
+Le DTO `AdminDashboardStats` servira à transmettre les statistiques essentielles du tableau de bord admin vers le frontend. Il contiendra des champs tels que :
+
+- `totalSales` (nombre total de ventes)
+- `totalRevenue` (chiffre d’affaires total)
+- `totalOrders` (nombre total de commandes passées)
+- `totalProducts` (nombre total de produits disponibles)
+- `totalUsers` (nombre total d’utilisateurs)
+- `pendingOrders` (nombre de commandes en attente)
+- `draftOrders` (nombre de commandes en statut brouillon)
+
+
+
+
+
+
+
 
