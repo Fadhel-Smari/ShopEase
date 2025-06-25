@@ -1785,4 +1785,42 @@ Le client reçoit une réponse 200 OK contenant un fichier PDF :
 - 403 Forbidden → tentative d’accès à la commande d’un autre utilisateur
 - 400 Bad Request → commande non encore payée
 
+## 🧪 Tests – Téléchargement de facture PDF via Postman
+### 📄 Fonctionnalité testée
+Permettre à un utilisateur connecté (CLIENT) de télécharger la facture PDF d’une commande payée (OrderStatus = PAID).
+
+### 🧰 Prérequis
+- La commande à tester doit :
+- Être déjà payée (PAID)
+- Appartenir à l’utilisateur connecté
+- L’utilisateur doit être authentifié avec un JWT valide
+- Le token JWT doit être fourni dans le header Authorization
+
+### ✅ Exemple de test avec Postman
+**URL :**
+```http
+GET http://localhost:8080/api/orders/1/invoice
+```
+**Headers :**
+| Clé           | Valeur                                 |
+| ------------- | -------------------------------------- |
+| Authorization | Bearer **{_token\_jwt\_valide}** |
+| Accept        | application/pdf                        |
+
+Remplace {token_jwt_valide} par le token obtenu lors de la connexion (/api/auth/login).
+
+**Résultat attendu :**
+✅ Code HTTP 200 OK
+📎 Un fichier PDF contenant les détails de la commande est retourné
+📝 Le nom du fichier sera de la forme : facture_order_1.pdf
+
+### ❌ Cas d’erreurs possibles
+
+| Scénario                                   | Statut attendu     | Message / Comportement               |
+| ------------------------------------------ | ------------------ | ------------------------------------ |
+| Commande inexistante                       | `404 Not Found`    | `Commande introuvable`               |
+| Commande non payée (`DRAFT`, etc.)         | `400 Bad Request`  | `La commande n’est pas encore payée` |
+| Accès à la commande d’un autre utilisateur | `403 Forbidden`    | `Accès interdit`                     |
+| JWT manquant ou invalide                   | `401 Unauthorized` | `Token manquant ou invalide`         |
+
 
