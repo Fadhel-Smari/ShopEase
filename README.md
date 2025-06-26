@@ -2015,4 +2015,41 @@ Contient les méthodes suivantes :
 
 Toutes ces opérations seront protégées par `@PreAuthorize("hasRole('ADMIN')")` dans le contrôleur `AdminUserController` (étape suivante).
 
+## ✅ Étape 3 – Création du contrôleur AdminUserController
 
+## 🎯 Objectif
+
+Créer un **contrôleur REST dédié aux administrateurs** pour gérer les utilisateurs (CRUD) de manière centralisée et sécurisée.
+
+
+## 🚧 Pourquoi créer un contrôleur séparé ?
+
+Avant :
+- Les routes `/api/users` contenaient à la fois des fonctionnalités admin (ex : `getAllUsers`, `createUser`) et des fonctionnalités utilisateur (profil, modification).
+
+Problèmes :
+- ⚠️ Mélange de responsabilités
+- ⚠️ Difficulté de maintenir les autorisations
+
+Maintenant :
+- 🔐 `/api/users` → uniquement les **fonctions liées au profil**
+- 🧑‍💼 `/api/admin/users` → uniquement les **fonctions pour administrateurs**
+
+## 🔀 Routes exposées par `AdminUserController`
+
+| Méthode | URL                          | Rôle requis | Description                       |
+|---------|------------------------------|-------------|-----------------------------------|
+| GET     | `/api/admin/users`           | ADMIN       | Liste de tous les utilisateurs    |
+| POST    | `/api/admin/users`           | ADMIN       | Création d’un nouvel utilisateur  |
+| PUT     | `/api/admin/users/{userId}`  | ADMIN       | Mise à jour d’un utilisateur      |
+| DELETE  | `/api/admin/users/{userId}`  | ADMIN       | Suppression d’un utilisateur      |
+
+## 🧩 DTOs utilisés
+
+- `RegisterRequest` : pour la création d’un utilisateur
+- `UpdateProfileRequest` : pour la mise à jour
+- `UserAdminResponse` : pour la réponse unifiée côté admin
+
+## ✅ Sécurité
+
+- L’annotation `@PreAuthorize("hasRole('ADMIN')")` est placée au niveau de la classe pour restreindre **toutes les méthodes** aux administrateurs uniquement.
