@@ -1981,3 +1981,38 @@ Il contient les informations essentielles telles que :
 - `email` : adresse email
 - `role` : rôle attribué (`CLIENT` ou `ADMIN`)
 
+## ✅ Étape 2 – Création du service AdminUserService
+
+## 🎯 Objectif
+
+Permettre à un administrateur d'accéder à la **liste des utilisateurs**, de **créer, modifier ou supprimer** un utilisateur existant.
+
+## ❓ Pourquoi séparer `AdminUserService` de `UserService` ?
+
+- Le service `UserService` est centré sur **le profil de l'utilisateur connecté** (profil personnel, mise à jour personnelle).
+- Le nouveau service `AdminUserService` est dédié à la **gestion globale des utilisateurs**, uniquement accessible aux administrateurs.
+- Cette séparation garantit une **clarté du code**, une meilleure **sécurité** et respecte les principes de **responsabilité unique (SRP)**.
+
+### 📁 Interface : `AdminUserService`
+
+Contient les méthodes suivantes :
+
+- `getAllUsers()` : Récupère tous les utilisateurs du système
+- `createUser(RegisterRequest)` : Crée un nouvel utilisateur avec mot de passe encodé
+- `updateUser(Long id, UpdateProfileRequest)` : Met à jour les informations d’un utilisateur
+- `deleteUser(Long id)` : Supprime un utilisateur
+
+### 📁 Implémentation : `AdminUserServiceImpl`
+
+- Injection de `UserRepository` pour la persistence
+- Utilisation de `PasswordEncoder` pour encoder les mots de passe à la création
+- Vérifications des erreurs avec `ResourceNotFoundException`
+- Utilisation du DTO `UserAdminResponse` pour encapsuler les données à retourner côté frontend
+
+---
+
+### 🔐 Sécurité
+
+Toutes ces opérations seront protégées par `@PreAuthorize("hasRole('ADMIN')")` dans le contrôleur `AdminUserController` (étape suivante).
+
+
