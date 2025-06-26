@@ -2,30 +2,18 @@ package com.shopease.backend.service;
 
 import com.shopease.backend.entity.User;
 import com.shopease.backend.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.shopease.backend.dto.UserProfileResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.shopease.backend.dto.UpdateProfileRequest;
 
-import java.util.List;
-
+@RequiredArgsConstructor
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    public User saveUser(User user) {
-        return userRepository.save(user);
-    }
 
     /**
      * Récupère les informations du profil de l'utilisateur actuellement connecté.

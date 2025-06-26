@@ -1,35 +1,19 @@
 package com.shopease.backend.controller;
 
-import com.shopease.backend.entity.User;
 import com.shopease.backend.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.shopease.backend.dto.UpdateProfileRequest;
-import java.util.List;
 import com.shopease.backend.dto.UserProfileResponse;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*") // Pour autoriser l'accès depuis React
 public class UserController {
 
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-    @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
-
-    @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public User createUser(@RequestBody User user) {
-        return userService.saveUser(user);
-    }
 
     /**
      * Récupère le profil de l'utilisateur actuellement authentifié.
