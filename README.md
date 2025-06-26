@@ -2053,3 +2053,135 @@ Maintenant :
 ## ✅ Sécurité
 
 - L’annotation `@PreAuthorize("hasRole('ADMIN')")` est placée au niveau de la classe pour restreindre **toutes les méthodes** aux administrateurs uniquement.
+
+# 🧪 Tests – AdminUserController via Postman
+
+## 🎯 Objectif
+
+Vérifier le bon fonctionnement des endpoints d'administration liés à la gestion des utilisateurs :  
+- 🔍 Consultation
+- ➕ Création
+- ✏️ Mise à jour
+- ❌ Suppression
+
+## 🔐 Authentification
+
+➡️ Connecte-toi avec un utilisateur `ADMIN` via `/api/auth/login` pour obtenir le **JWT Token**.
+
+🔑 Ensuite, ajoute ce token dans les **Headers** Postman :
+
+**Authorization: Bearer JWT_TOKEN_ICI**
+
+
+## 1️⃣ Obtenir la liste des utilisateurs
+
+**URL :**
+```bash
+GET http://localhost:8080/api/admin/users
+```
+
+**Headers :**
+```http
+Authorization: Bearer JWT_TOKEN_ICI
+```
+
+✅ **Résultat attendu :**
+```json
+[
+  {
+    "id": 1,
+    "firstname": "Admin",
+    "lastname": "User",
+    "username": "admin",
+    "email": "admin@example.com",
+    "role": "ADMIN"
+  },
+  ...
+]
+```
+## 2️⃣ Créer un nouvel utilisateur
+**URL :**
+
+```bash
+POST http://localhost:8080/api/admin/users
+```
+Headers :
+
+```http
+Authorization: Bearer JWT_TOKEN_ICI
+Content-Type: application/json
+```
+**Body (JSON) :**
+
+```json
+{
+  "firstname": "Sarah",
+  "lastname": "Doe",
+  "username": "sarah_d",
+  "email": "sarah@example.com",
+  "password": "pass123"
+}
+```
+**✅ Résultat attendu :**
+
+```json
+{
+  "id": 5,
+  "firstname": "Sarah",
+  "lastname": "Doe",
+  "username": "sarah_d",
+  "email": "sarah@example.com",
+  "role": "CLIENT"
+}
+```
+📝 Par défaut, l'utilisateur est enregistré avec le rôle CLIENT.
+
+## 3️⃣ Modifier un utilisateur
+**URL :**
+
+```bash
+PUT http://localhost:8080/api/admin/users/5
+```
+**Headers :**
+
+```http
+Authorization: Bearer JWT_TOKEN_ICI
+Content-Type: application/json
+```
+**Body (JSON) :**
+
+```json
+{
+  "firstname": "Sarah",
+  "lastname": "Smith",
+  "email": "sarah.smith@example.com"
+}
+```
+**✅ Résultat attendu :**
+
+```json
+{
+  "id": 5,
+  "firstname": "Sarah",
+  "lastname": "Smith",
+  "username": "sarah_d",
+  "email": "sarah.smith@example.com",
+  "role": "CLIENT"
+}
+```
+## 4️⃣ Supprimer un utilisateur
+**URL :**
+
+```bash
+DELETE http://localhost:8080/api/admin/users/5
+```
+**Headers :**
+
+```http
+Authorization: Bearer JWT_TOKEN_ICI
+```
+**✅ Résultat attendu :**
+
+```http
+200 OK
+```
