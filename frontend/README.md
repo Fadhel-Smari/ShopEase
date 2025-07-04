@@ -24,7 +24,7 @@ Il consomme les API REST sécurisées exposées par le backend Spring Boot, et o
 |Visual Studio Code   | 1.101.2             |  Éditeur de code
 ---
 
-## 🛠️ Étapes d’installation et configuration (Ubuntu 22+)
+## Étapes d’installation et configuration (Ubuntu)
 
 ### ✅ Prérequis déjà installés
 
@@ -77,3 +77,31 @@ npm install axios react-router-dom@6 react-redux @reduxjs/toolkit react-toastify
 npm start
 ```
 ➡️ L’application est disponible sur http://localhost:3000
+
+## Étapes de Développement de l’interface frontend
+
+# Étape 1 – Base du frontend : Layout + Navigation
+
+## 🎯 Objectif
+
+Mettre en place la structure de base de l’interface avec React + Tailwind :
+- Navigation avec `react-router-dom`
+- Pages publiques (Accueil, Connexion, Inscription)
+- Composants globaux (`Navbar`, `Footer`)
+- Structure Layout (responsive, avec Tailwind)
+
+## Résultat
+
+- Accès aux pages `/`, `/login`, `/register`, et page 404 (`*`)
+- Barre de navigation fonctionnelle
+- Layout cohérent et prêt pour les prochaines étapes
+
+## 🧪 Test
+
+Lancer le projet avec :
+
+```bash
+npm start
+```
+
+
