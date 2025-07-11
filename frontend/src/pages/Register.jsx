@@ -12,7 +12,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import authService from "../services/authService";
+import { register } from "../services/authService";
 import { toast } from "react-toastify";
 
 const Register = () => {
@@ -48,7 +48,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await authService.register(formData);
+      await register(formData);
       toast.success("Inscription réussie !");
       navigate("/login");
     } catch (error) {
