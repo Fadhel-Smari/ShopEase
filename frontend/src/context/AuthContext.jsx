@@ -9,7 +9,7 @@
  */
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { getTokenPayload, removeToken } from "../utils/tokenUtils";
+import { getToken, decodeToken, removeToken } from "../utils/tokenUtils";
 import { useNavigate } from "react-router-dom";
 
 // Création d'un contexte d'authentification pour partager l'état utilisateur dans l'application
@@ -30,7 +30,8 @@ export const AuthProvider = ({ children }) => {
 
   // Effet déclenché au chargement du composant pour récupérer les infos du token (si existant)
   useEffect(() => {
-    const payload = getTokenPayload();
+    const token = getToken();
+    const payload = decodeToken(token);
     if (payload) {
       setUser({
         username: payload.sub,
