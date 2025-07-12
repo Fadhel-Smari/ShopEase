@@ -40,6 +40,13 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  const login = (userData) => {
+    setUser({
+    username: userData.username,
+    role: userData.role,
+    });
+  };
+
   /**
    * Fonction pour déconnecter l'utilisateur.
    * 
@@ -52,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, logout }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

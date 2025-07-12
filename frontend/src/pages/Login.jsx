@@ -47,7 +47,7 @@ const Login = () => {
       const userData = await loginService(credentials); // Appel de l'API backend avec les identifiants
       login(userData); // Mise à jour du contexte d'authentification avec les données reçues
       toast.success('Connexion réussie ✅'); // Notification de succès
-      navigate('/'); // Redirection vers la page d'accueil
+      navigate('/Profile'); // Redirection vers la page d'accueil
     } catch (error) {
       toast.error('Échec de la connexion ❌'); // Notification d'erreur
     }
