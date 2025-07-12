@@ -44,6 +44,7 @@ export const removeToken = () => {
  * @returns {Object|null} Le contenu décodé du payload ou null en cas d'erreur
  */
 export const decodeToken = (token) => {
+  if (!token) return null;
   try {
     // Sépare le token en trois parties et récupère la partie payload (2e segment)
     const payload = token.split(".")[1];
