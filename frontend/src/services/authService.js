@@ -9,7 +9,7 @@
 
 import api from "./api";
 
-const AUTH_API = "/api/auth";
+const AUTH_API = "/auth";
 
 /**
  * Enregistre un nouvel utilisateur en envoyant ses données au backend.
